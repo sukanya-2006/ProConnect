@@ -17,7 +17,7 @@ app.use(express.static("uploads"))
 
 const start = async () => {
 
-   const connectDB = await mongoose.connect("");
+   const connectDB = await mongoose.connect(process.env.MONGO_URI);
 
 
    app.listen(9090, () => {
