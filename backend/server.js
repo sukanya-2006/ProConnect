@@ -17,7 +17,7 @@ app.use(express.static("uploads"))
 
 const start = async () => {
 
-   const connectDB = await mongoose.connect("mongodb+srv://sukanyabhowmick094_db_user:B0VPMgsZ6ZFQsN5M@proconnect.trlmcel.mongodb.net/?appName=proconnect");
+   const connectDB = await mongoose.connect("");
 
 
    app.listen(9090, () => {
