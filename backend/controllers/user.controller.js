@@ -1,3 +1,4 @@
+import Post from "../models/posts.model.js";
 import Profile from "../models/profile.model.js"
 import User from "../models/user.model.js";
 import crypto from 'crypto';
@@ -315,7 +316,7 @@ export const getMyConnectionsRequests =  async (req, res) => {
 }
 
 
-export const whatAreMyConnections = async (req, res) =>{
+export const whatAreMyConnections  = async (req, res) =>{
     const { token } = req.body;
 
     try {
@@ -326,6 +327,78 @@ export const whatAreMyConnections = async (req, res) =>{
         }
 
         const connections = await ConnectionRequest.find({connectionId: user._id})
+        .populate('userId', 'name username email profilePicture');
+
+        return res.json(connections);
+
+    } catch (err) {
+        return res.status(500).json({message: err.message})
+    }
+}
+
+
+export const acceptConnectionRequest =  async (req, res) => {
+    const { token, requestId, action_type} = req.body;
+
+    try {
+        const user = await User.findOne({token});
+
+          if(!user) {
+            return res.status(404).json({message: "User not found"})
+        }
+
+        const connection = await ConnectionRequest.findOne({_id: requestId});
+
+         if(!connection) {
+            return res.status(404).json({message: "Connection not found"})
+        }
+
+        if ( action_type === "accept") {
+           connection.status_accepted = true;
+        } else {
+            connection.status_accepted = false;
+
+        }
+
+        await connection.save();
+         return res.json({message:"Request Updated"})
+    } catch (err) {
+        return res.status(500).json({message: err.message})
+    }
+}
+
+
+
+export const commentPost = async ( req, res ) => {
+    const { token, post_id, commentBody} = req.body;
+
+    try {
+        
+        const user = await User.findOne({token: token}).select("_id");
+        
+        if(!user) {
+            return res.status(404).json({message: "User not found"})
+        }
+
+        const post = await Post.findOne({
+            _id: post_id
+        });
+       
+         if(!post) {
+            return res.status(404).json({message: "Post not found"})
+        }
+
+        const comment = new Comment({
+            userId : user._id,
+            postId: post._id,
+            comment: commentBody
+        });
+
+        await comment.save();
+
+
+        return res.status(200).json({message: "Comment Added"})
+
     } catch (err) {
         return res.status(500).json({message: err.message})
     }
