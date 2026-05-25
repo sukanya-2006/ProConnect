@@ -1,3 +1,4 @@
+
 import express from 'express';
 import cors from "cors";
 import dotenv from "dotenv";
@@ -5,10 +6,15 @@ import mongoose from "mongoose";
 import postRoutes from "./routes/posts.routes.js";
 import userRoutes from "./routes/user.routes.js";
 dotenv.config();
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 app.use(express.json());
 app.use(postRoutes);
 app.use(userRoutes);
