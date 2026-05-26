@@ -30,14 +30,14 @@ Content-Type: application/json
     "password": "sukanya1234"
 }
 
-
+6f0beda365b32840f05db706c62b981c1e25d960d0a53b77f315bfb12c46cb96
 ###
 
 GET http://localhost:9090/get_user_and_profile
 Content-Type: application/json
 
 {
-    "token": "6f0beda365b32840f05db706c62b981c1e25d960d0a53b77f315bfb12c46cb96"
+    "token": "0dbbf1aa1b0aed1c06dbeedcc97bf113e9432e7de6ad6c84351206e46c4b7921"
 }
 
 ###
@@ -46,7 +46,7 @@ POST http://localhost:9090/update_profile_data
 Content-Type: application/json
 
 {
-    "token": "6f0beda365b32840f05db706c62b981c1e25d960d0a53b77f315bfb12c46cb96",
+    "token": "0dbbf1aa1b0aed1c06dbeedcc97bf113e9432e7de6ad6c84351206e46c4b7921",
     "bio": "AI enthusiast and developer",
     "currentPost": "CTO",
     "pastWork": [
