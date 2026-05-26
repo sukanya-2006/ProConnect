@@ -1,0 +1,75 @@
+/* .scrollComponent {
+    display: flex;
+    justify-content: center;
+}
+
+.createPostContainer {
+    display: flex;
+    height: 10svh;
+    width: 70%;
+    padding-inline : 0.8rem;
+}
+
+.createPostContainer > textarea {
+    width: 100%;
+}
+
+.Fab > svg {
+     width: 45px;
+    height: 45px;
+    
+} */
+
+
+
+
+
+
+
+
+
+.scrollComponent {
+    display: flex;
+    justify-content: center;
+}
+
+.createPostContainer {
+    display: flex;
+    align-items: center;
+
+    width: 70%;
+    gap: 1rem;
+
+    padding-inline: 0.8rem;
+}
+
+.createPostContainer > img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.createPostContainer > textarea {
+    width: 100%;
+    height: 70px;
+
+    padding: 1rem;
+
+    resize: none;
+
+    margin: 0;   /* IMPORTANT */
+}
+
+.Fab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 70px; /* IMPORTANT */
+}
+
+.Fab > svg {
+    width: 40px;
+    height: 40px;
+}
