@@ -1,0 +1,86 @@
+.container {
+    font-family : "Poppins";
+    padding: 1.2rem;
+}
+
+/* .mainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+    padding-inline: 2rem;
+    height: 80vh;
+} */
+/* .mainContainer {
+    display: flex;
+    justify-content: space-between;   
+    align-items: center;
+    gap: 4rem;
+    padding-inline: 6rem;              
+    height: 80vh;
+    max-width: 1200px;                 
+    margin: auto;                     
+} */
+
+.mainContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    max-width: 1100px;   /* ⭐ CONTROL WIDTH */
+    margin: 0 auto;      /* ⭐ center whole section */
+
+    padding: 40px 20px;  /* ⭐ reduce vertical size */
+    min-height: 70vh;    /* ⭐ smaller hero height */
+}
+
+
+
+.mainContainer_left {
+    flex: 0.5;
+     width: 560px; 
+}
+
+.mainContainer_right {
+    flex: 0.5;
+}
+
+.mainContainer_left > p:nth-child(1) {
+    /* font-size: 2.9rem; */
+    font-size: 2.2rem;
+    line-height: 1.2;
+    background: -webkit-linear-gradient(45deg, #000000, #9d9d9d);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+
+}
+
+
+
+.mainContainer_left > p:nth-child(2) {
+    color: #4d4d4d;
+    font-size: 1.2rem;
+     margin-top: 12px;
+
+}
+
+
+.mainContainer_left > div.buttonJoin {
+    width: fit-content;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s;
+    margin-top: 0.8rem;
+    font-size: 1.4rem;
+    background: rgb(204, 51, 181);
+    color: white;
+    padding-inline: 1.2rem;
+    padding-block: 0.6rem;
+    border-radius: 20px;
+}
+
+.mainContainer_right img {
+    width: 420px;
+    height: auto;
+}
