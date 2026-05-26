@@ -3,9 +3,11 @@ import express from 'express';
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import dns from 'dns';
 import postRoutes from "./routes/posts.routes.js";
 import userRoutes from "./routes/user.routes.js";
 dotenv.config();
+dns.setDefaultResultOrder('ipv4first');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const app = express();
 
