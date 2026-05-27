@@ -1,53 +1,51 @@
-/* .scrollComponent {
-    display: flex;
-    justify-content: center;
-}
-
-.createPostContainer {
-    display: flex;
-    height: 10svh;
-    width: 70%;
-    padding-inline : 0.8rem;
-}
-
-.createPostContainer > textarea {
-    width: 100%;
-}
-
-.Fab > svg {
-     width: 45px;
-    height: 45px;
-    
-} */
-
-
-
-
-
-
-
-
 
 .scrollComponent {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.uploadButton {
+    position: absolute;
+    right: 0;
+    bottom: -45px;
+    background: rgb(2,93,158);
+    color: white;
+    border-radius: 10px;
+    padding-inline: 1.2rem;
+    padding-block: 0.8rem;
+    cursor: pointer;
 }
 
 .createPostContainer {
     display: flex;
     align-items: center;
 
-    width: 70%;
+    width: 100%;
     gap: 1rem;
-
+    position: relative;
     padding-inline: 0.8rem;
+    align-items: center;
+    background: rgb(255, 246, 246);
+    border-radius: 15px;
+}
+
+.wrapper {
+    width: 70%;
+    display:flex;
+    flex-direction: column;
+    gap: 1.3rem;
+    max-width: 80%;
 }
 
 .createPostContainer > img {
     width: 70px;
     height: 70px;
+
     border-radius: 50%;
     object-fit: cover;
+
+    display: block;
 }
 
 .createPostContainer > textarea {
@@ -61,15 +59,69 @@
     margin: 0;   /* IMPORTANT */
 }
 
+
+
 .Fab {
-    display: flex;
     align-items: center;
     justify-content: center;
+    background: rgb(12, 50, 156);
+    border-radius: 100%;
 
-    height: 70px; /* IMPORTANT */
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    align-self: center;
 }
 
 .Fab > svg {
-    width: 40px;
-    height: 40px;
+    width: fit-content;
+    height: 24px;
+    color: white;
+}
+
+.textAreaOfContent {
+    width: 80%;
+    height: 70px;
+    border: 1px solid silver;
+    border-radius: 10px;
+    padding-inline: 1.5rem;
+    padding-block: 0.8rem;
+    outline: none;
+
+
+}
+
+.singleCard {
+    width: 100%;
+    border-radius: 10px 10px 0px 0px;
+    border-bottom: 1px solid rgb(179, 179, 179);
+    
+}
+
+.singleCard_profileContainer {
+    display:flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    padding: 1.2rem;
+    padding-right: 3.4rem;
+}
+
+.singleCard_profileContainer > img {
+    width: 10%;
+    border-radius: 50%;
+}
+
+.singleCard_image {
+    width: 100%;
+    padding-top: 0.6rem;
+    height:fit-content;
+    overflow: hidden;
+}
+
+.singleCard_image > img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
 }
