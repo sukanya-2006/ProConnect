@@ -1,6 +1,7 @@
 import Post from "../models/posts.model.js";
 import Profile from "../models/profile.model.js"
 import User from "../models/user.model.js";
+import Comment from "../models/comments.model.js";
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import PDFDocument from 'pdfkit';
@@ -432,7 +433,7 @@ export const commentPost = async ( req, res ) => {
         const comment = new Comment({
             userId : user._id,
             postId: post._id,
-            comment: commentBody
+            body: commentBody
         });
 
         await comment.save();
