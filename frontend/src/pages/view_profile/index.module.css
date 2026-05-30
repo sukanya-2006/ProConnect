@@ -1,0 +1,119 @@
+/* .container {
+    padding: 1.3rem;
+    background: rgb(230, 230, 230);
+}
+
+.backDropContainer {
+    width: 80vw;
+    height: 30vh;
+    background: url()
+} */
+
+/* 
+.container {
+    padding: 1.3rem;
+}
+
+.backDropContainer {
+    width: 80vw;
+    height: 30vh;
+
+    background-image: url("https://media.licdn.com/dms/image/v2/D4D12AQGRsL7h26w-Bg/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1711431970518?e=2147483647&v=beta&t=7MUoFdBoTt2bbPGQLIg36dcFCRHCwu1HyicK282aK6Y");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border-radius: 10px;
+    position: relative;
+}
+
+.backDrop {
+    width: 160px;
+    height: 160px;
+
+    border-radius: 50%;
+    object-fit: cover;
+
+    position: absolute;
+    bottom: -80px;
+    left: 40px;
+
+    border: 5px solid white;
+    background: white;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+.container {
+    width: 100%;
+    padding: 1.5rem;
+}
+
+.backDropContainer {
+    position: relative;
+    width: 100%;
+}
+
+
+.backDrop {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    object-position: center 25%;
+    border-radius: 12px;
+}
+
+/* .backDrop {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    object-position: center 25%;
+    border-radius: 12px;
+} */
+
+.profilePicture {
+    position: absolute;
+    left: 40px;
+    bottom: -50px;
+
+    width: 130px;
+    height: 130px;
+
+    border-radius: 50%;
+    border: 5px solid white;
+}
+
+.profileContainer_details {
+    margin-top: 70px;
+    padding-left: 0;
+}
+
+.profileInfo {
+    margin-top: 70px;
+    padding-left: 40px;
+}
+
+.profileInfo h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.username {
+    color: gray;
+    margin-top: 0.4rem;
+}
+
+.bio {
+    margin-top: 1rem;
+    font-size: 1rem;
+}

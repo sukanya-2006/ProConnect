@@ -63,7 +63,7 @@ export default function DashboardLayout({children}) {
                 </div>
 
                 <div className={styles.homeContainer_extraContainer}>
-   <h3>Top Profiles</h3>
+                <h3>Top Profiles</h3>
 
   {
    authState?.all_users?.map((profile) => {
@@ -82,7 +82,7 @@ export default function DashboardLayout({children}) {
 
 
 
-              </div>
+   </div>
                 
                
     </div>

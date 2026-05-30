@@ -20,6 +20,7 @@
     flex-direction: column;
     gap : 1.2rem;
     align-items: start;
+    border-right: 1px solid rgb(222, 222, 222);
 }
 
 .sideBarOption {
@@ -41,4 +42,31 @@
 .sideBarOption > svg {
     height: 1.4em;
     min-width: fit-content;
+}
+
+.homeContainer_extraContainer {
+    border-left: 1px solid rgb(222, 222, 222);
+    padding-left: 1.2rem;
+}
+
+.homeContainer_feedContainer {
+    padding-inline: 0.8rem;
+
+}
+
+
+@media (max-width: 768px) {
+
+    .homeContainer_leftBar {
+        display: none;
+    }
+
+    .homeContainer_extraContainer {
+        display: none;
+    }
+
+    .homeContainer_feedContainer {
+        width: 100%;
+        padding: 0;
+    }
 }
