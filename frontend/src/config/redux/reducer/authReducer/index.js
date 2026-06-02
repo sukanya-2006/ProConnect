@@ -1,6 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser, registerUser , getAboutUser, getAllUsers} from "../../action/authAction";
+import { loginUser, registerUser, getAboutUser, getAllUsers, getConnectionsRequest, getMyConnectionsRequest } from "../../action/authAction";
 // const { loginUser } = require("../../action/authAction")
 
 
@@ -91,8 +91,19 @@ const authSlice = createSlice({
             state.all_users = action.payload.profiles;
             state.all_profiles_fetched = true;
         })
-        }
-    }
+        .addCase(getConnectionsRequest.fulfilled, (state, action) => {
+            state.connections = action.payload;
+        })
+        .addCase(getConnectionsRequest.rejected,(state, action) => {
+            state.message = action.payload
+        })
+        .addCase(getMyConnectionsRequest.fulfilled, (state, action) => {
+            state.connectionRequest = action.payload;
+        })
+        .addCase(getMyConnectionsRequest.rejected, (state, action) => {
+            state.message = action.payload
+        })
+    }}
 )
 
 export const { reset, handleLoginUser ,emptyMessage, setTokenIsThere, setTokenIsNotThere} = authSlice.actions;
