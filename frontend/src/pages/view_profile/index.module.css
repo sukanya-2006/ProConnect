@@ -101,3 +101,14 @@
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
 }
+
+.pendingButton {
+    background-color: #f3f4f6;
+    color: #555;
+    border: 1px solid #d1d5db;
+
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+
+    cursor: default;
+}

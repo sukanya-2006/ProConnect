@@ -8,7 +8,7 @@ import { useSearchParams } from 'next/navigation';
 import {useDispatch, useSelector} from 'react-redux';
 import { getAllPosts } from '@/config/redux/action/postAction';
 import { useRouter} from 'next/router';
-import { getConnectionsRequest, sendConnectionRequest} from '@/config/redux/action/authAction';
+import { getConnectionsRequest,getMyConnectionsRequest, sendConnectionRequest} from '@/config/redux/action/authAction';
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.css";
 
@@ -20,17 +20,37 @@ export default function ViewProfilePage({ userProfile }) {
     const dispatch = useDispatch();
 
     const authState = useSelector((state) => state.auth)
-
+    
+    console.log("Received Requests:", authState.connections);
+    console.log("Sent Requests:", authState.connectionRequest);
     const [userPosts, setUserPosts] = useState([]);
 
     const [isCurrentUserInConnection, setIsCurrentUserInConnection] = useState(false);
     const [isRequestSent, setIsRequestSent] = useState(false); 
+    
+    // const [isConnectionNull, setIsConnectionNull] = useState(true);
 
+    // const getUsersPost = async()=> {
+    //     await dispatch(getAllPosts());
+    //     await dispatch(getConnectionsRequest({token: localStorage.getItem("token")}));
+
+    // }
     const getUsersPost = async()=> {
-        await dispatch(getAllPosts());
-        await dispatch(getConnectionsRequest({token: localStorage.getItem("token")}));
 
-    }
+    await dispatch(getAllPosts());
+
+    await dispatch(
+        getConnectionsRequest({
+            token: localStorage.getItem("token")
+        })
+    );
+
+    await dispatch(
+        getMyConnectionsRequest({
+            token: localStorage.getItem("token")
+        })
+    );
+}
 
 
     useEffect(() => {
@@ -48,9 +68,56 @@ export default function ViewProfilePage({ userProfile }) {
         }
     }, [authState.connections])
 
-    useEffect(() => {
+//     useEffect(() => {
+
+//     if(
+//         authState.connectionRequest?.some(
+//             req => req.connectionId?._id === userProfile.userId._id
+//         )
+//     ){
+//         setIsRequestSent(true);
+//     }
+
+// }, [
+//     authState.connectionRequest,
+//     userProfile.userId._id
+// ]);
+
+//     useEffect(() => {
+//     getUsersPost();
+//      }, [])
+
+
+   useEffect(() => {
+
+    console.log(
+        "Sent Requests:",
+        authState.connectionRequest
+    );
+
+    console.log(
+        "Current Profile:",
+        userProfile.userId._id
+    );
+
+    const found = authState.connectionRequest?.some(
+        req => req.connectionId?._id === userProfile.userId._id
+    );
+
+    console.log("FOUND =", found);
+
+    if(found){
+        setIsRequestSent(true);
+    }
+
+}, [
+    authState.connectionRequest,
+    userProfile.userId._id
+]);
+
+useEffect(() => {
     getUsersPost();
-     }, [])
+}, [])
 
     // return (
     //     <UserLayout>
@@ -162,18 +229,52 @@ export default function ViewProfilePage({ userProfile }) {
                             </div>
 
                             <div style={{ marginTop: "0.5rem" }}>
-                                {isCurrentUserInConnection ?
-                                    <button className={styles.connectedButton}>Connected</button>
-                                    : isRequestSent ?
-                                    <button className={styles.connectedButton}>Pending</button>
-                                    :
+                                {/* {isCurrentUserInConnection ?
+                                    <button className={styles.connectedButton}>{isConnectionNull ? "Pending": "Connected" }</button>
+                                    : 
                                     <button onClick={() => {
                                         dispatch(sendConnectionRequest({ token: localStorage.getItem("token"), userId: userProfile.userId._id }));
-                                        setIsRequestSent(true);
+                                        // setIsRequestSent(true);
                                     }} className={styles.connectBtn}>
                                         Connect
                                     </button>
-                                }
+                                } */}
+
+                                {
+                                isCurrentUserInConnection ? (
+
+                                <button className={styles.connectedButton}>
+                                 Connected
+                                </button>
+
+                                 ) : isRequestSent ? (
+
+                                <button className={styles.pendingButton}>
+                                 Pending
+                                </button>
+
+                                ) : (
+
+                             <button
+                             onClick={() => {
+                                console.log("Sending Request To:", userProfile.userId._id);
+                                dispatch(
+                                sendConnectionRequest({
+                                  token: localStorage.getItem("token"),
+                                  connectionId: userProfile.userId._id
+                                 })
+                                 );
+
+                                setIsRequestSent(true);
+
+                              }}
+                             className={styles.connectBtn}
+                           >
+                           Connect
+                            </button>
+
+                              )
+                          }
                             </div>
 
                             <p style={{ marginTop: "0.5rem", color: "#444" }}>{userProfile.bio}</p>
