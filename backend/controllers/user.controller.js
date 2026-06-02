@@ -2,6 +2,7 @@ import Post from "../models/posts.model.js";
 import Profile from "../models/profile.model.js"
 import User from "../models/user.model.js";
 import Comment from "../models/comments.model.js";
+import ConnectionRequest from "../models/connections.model.js"; 
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import PDFDocument from 'pdfkit';
@@ -307,10 +308,10 @@ export const sendConnectionRequest = async (req, res) => {
             return res.status(404).json({message:"Connection User not found"})
          }
 
-         const existingRequest = await sendConnectionRequest.findOne({
-            userId: user._id,
-            connectionId: connectionUser._id
-         })
+         const existingRequest = await ConnectionRequest.findOne({
+          userId: user._id,
+          connectionId: connectionUser._id
+        })
 
          if (existingRequest) {
             return res.status(400).json({message: "Request already sent"})
@@ -359,7 +360,7 @@ export const getMyConnectionsRequests =  async (req, res) => {
 
 
 export const whatAreMyConnections  = async (req, res) =>{
-    const { token } = req.body;
+    const { token } = req.query;
 
     try {
         const user = await User.findOne({token});
