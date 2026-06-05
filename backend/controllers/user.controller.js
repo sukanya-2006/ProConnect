@@ -335,17 +335,53 @@ export const sendConnectionRequest = async (req, res) => {
 
 }
 
+// export const getMyConnectionsRequests = async (req, res) => {
+
+//     const { token } = req.query;
+
+//     try {
+
+//         console.log("TOKEN =", token);
+
+//         const user = await User.findOne({ token });
+
+//         console.log("USER =", user);
+
+//         if (!user) {
+//             return res.status(404).json({
+//                 message: "User not found"
+//             });
+//         }
+
+//         const connections = await ConnectionRequest.find({
+//             userId: user._id
+//         })
+//         .populate(
+//             "connectionId",
+//             "name username email profilePicture"
+//         );
+
+//         console.log("CONNECTIONS =", connections);
+
+//         return res.json({ connections });
+
+//     } catch (err) {
+
+//         console.log("ERROR =", err);
+
+//         return res.status(500).json({
+//             message: err.message
+//         });
+//     }
+// }
+
 export const getMyConnectionsRequests = async (req, res) => {
 
     const { token } = req.query;
 
     try {
 
-        console.log("TOKEN =", token);
-
         const user = await User.findOne({ token });
-
-        console.log("USER =", user);
 
         if (!user) {
             return res.status(404).json({
@@ -361,13 +397,9 @@ export const getMyConnectionsRequests = async (req, res) => {
             "name username email profilePicture"
         );
 
-        console.log("CONNECTIONS =", connections);
-
         return res.json({ connections });
 
     } catch (err) {
-
-        console.log("ERROR =", err);
 
         return res.status(500).json({
             message: err.message
@@ -375,6 +407,41 @@ export const getMyConnectionsRequests = async (req, res) => {
     }
 }
 
+
+
+
+
+// export const getMyConnectionsRequests = async (req, res) => {
+
+//     const { token } = req.query;
+
+//     try {
+
+//         const user = await User.findOne({ token });
+
+//         if (!user) {
+//             return res.status(404).json({
+//                 message: "User not found"
+//             });
+//         }
+
+//         const connections = await ConnectionRequest.find({
+//             connectionId: user._id
+//         })
+//         .populate(
+//             "userId",
+//             "name username email profilePicture"
+//         );
+
+//         return res.json({ connections });
+
+//     } catch (err) {
+
+//         return res.status(500).json({
+//             message: err.message
+//         });
+//     }
+// }
 
 // export const getMyConnectionsRequests =  async (req, res) => {
 
@@ -399,27 +466,122 @@ export const getMyConnectionsRequests = async (req, res) => {
 
 
 // }
+export const whatAreMyConnections = async (req, res) => {
 
-
-export const whatAreMyConnections  = async (req, res) =>{
     const { token } = req.query;
 
     try {
+
         const user = await User.findOne({token});
 
         if(!user) {
-            return res.status(404).json({message: "User not found"})
+            return res.status(404).json({
+                message: "User not found"
+            });
         }
 
-        const connections = await ConnectionRequest.find({connectionId: user._id})
-        .populate('userId', 'name username email profilePicture');
+        const connections = await ConnectionRequest.find({
+            connectionId: user._id,
+            status_accepted: null
+        })
+        .populate(
+            'userId',
+            'name username email profilePicture'
+        );
+//         const connections = await ConnectionRequest.find({
+//     $or: [
+//         { userId: user._id },
+//         { connectionId: user._id }
+//     ],
+//     status_accepted: true
+// })
+// .populate(
+//     'userId',
+//     'name username email profilePicture'
+// )
+// .populate(
+//     'connectionId',
+//     'name username email profilePicture'
+// );
 
-        return res.json(connections);
+       return res.json(
+     connections
+);
 
     } catch (err) {
-        return res.status(500).json({message: err.message})
+        return res.status(500).json({
+            message: err.message
+        });
     }
 }
+
+
+export const getMyNetwork = async (req, res) => {
+
+    const { token } = req.query;
+
+    try {
+
+        const user = await User.findOne({ token });
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        const connections = await ConnectionRequest.find({
+            $or: [
+                { userId: user._id },
+                { connectionId: user._id }
+            ],
+            status_accepted: true
+        })
+        .populate(
+            "userId",
+            "name username email profilePicture"
+        )
+        .populate(
+            "connectionId",
+            "name username email profilePicture"
+        );
+
+        return res.json({
+            connections
+        });
+
+    } catch (err) {
+
+        return res.status(500).json({
+            message: err.message
+        });
+
+    }
+}
+
+
+
+
+
+// export const whatAreMyConnections  = async (req, res) =>{
+//     const { token } = req.query;
+
+//     try {
+//         const user = await User.findOne({token});
+
+//         if(!user) {
+//             return res.status(404).json({message: "User not found"})
+//         }
+
+//         const connections = await ConnectionRequest.find({connectionId: user._id})
+//         .populate('userId', 'name username email profilePicture');
+
+//         return res.json(connections);
+
+//     } catch (err) {
+//         return res.status(500).json({message: err.message})
+//     }
+// }
 
 
 export const acceptConnectionRequest =  async (req, res) => {
