@@ -61,12 +61,63 @@ export default function ViewProfilePage({ userProfile }) {
         setUserPosts(post);  
     },   [postReducer.posts])
 
-    useEffect(() => {
-        console.log(authState.connections, userProfile.userId._id)
-        if(authState.connections.some(user => user.connectionId._id === userProfile.userId._id)) {
-            setIsCurrentUserInConnection(true)
-        }
-    }, [authState.connections])
+    // useEffect(() => {
+    //     console.log(authState.connections, userProfile.userId._id)
+    //     if(authState.connections.some(user => user.connectionId._id === userProfile.userId._id)) {
+    //         setIsCurrentUserInConnection(true)
+    //     }
+    // }, [authState.connections])
+
+
+//     useEffect(() => {
+
+//     const connectedUser = authState.connections.find((connection) => {
+
+//         return (
+//             connection.status_accepted === true &&
+//             (
+//                 connection.userId?._id === userProfile.userId._id ||
+//                 connection.connectionId?._id === userProfile.userId._id
+//             )
+//         );
+
+//     });
+
+//     setIsCurrentUserInConnection(!!connectedUser);
+
+// }, [authState.connections, userProfile.userId._id]);
+
+
+
+
+useEffect(() => {
+
+    const connectedUser = authState.connections.find((connection) => {
+
+        const senderId =
+            typeof connection.userId === "object"
+                ? connection.userId._id
+                : connection.userId;
+
+        const receiverId =
+            typeof connection.connectionId === "object"
+                ? connection.connectionId._id
+                : connection.connectionId;
+
+        return (
+            connection.status_accepted === true &&
+            (
+                senderId === userProfile.userId._id ||
+                receiverId === userProfile.userId._id
+            )
+        );
+    });
+
+    console.log("CONNECTED USER =", connectedUser);
+
+    setIsCurrentUserInConnection(!!connectedUser);
+
+}, [authState.connections, userProfile.userId._id]);
 
 //     useEffect(() => {
 
@@ -106,9 +157,10 @@ export default function ViewProfilePage({ userProfile }) {
 
     console.log("FOUND =", found);
 
-    if(found){
-        setIsRequestSent(true);
-    }
+    // if(found){
+    //     setIsRequestSent(true);
+    // }
+    setIsRequestSent(found);
 
 }, [
     authState.connectionRequest,
