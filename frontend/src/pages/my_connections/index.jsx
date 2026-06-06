@@ -34,8 +34,7 @@ useEffect(() => {
       <DashboardLayout>
       
 <div>
-    {authState.connections.length === 0 ? (
-
+    {!Array.isArray(authState.connections) || authState.connections.length === 0 ? (
         <div>
             <h1>No Connection Requests Pending</h1>
             
@@ -46,7 +45,7 @@ useEffect(() => {
         <>
             <h1>My Connections</h1>
 
-            {authState.connections.filter((connection) => connection.status_accepted === null).map((user, index) => {
+          {Array.isArray(authState.connections) && authState.connections.filter((connection) => connection.status_accepted === null).map((user, index) => {
     return (
         <div
         
@@ -135,7 +134,7 @@ useEffect(() => {
     )}
 </div>
 <h2 className={styles.networkHeading}>My Network</h2>
-{authState.connections.filter((connection) => connection.status_accepted !== null).map((user, index) =>{
+{Array.isArray(authState.connections) && authState.connections.filter((connection) => connection.status_accepted !== null).map((user, index) =>{
 const currentUserId = authState.user?.userId?._id;
 
 const profile =
