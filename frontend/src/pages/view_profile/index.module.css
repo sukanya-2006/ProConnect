@@ -1,10 +1,8 @@
 .container {
     width: 100%;
     padding: 1rem;
-    
     display: flex;
     flex-direction: column;
-    
 
 }
 
@@ -16,23 +14,6 @@
     border-radius: 12px;
     margin-bottom: 70px;
 }
-
-/* .backDropContainer {
-    position: relative;
-    width: 100%;
-    height: 200px;
-    overflow: visible;
-    border-radius: 12px;
-    margin-bottom: 60px;
-} */
-
-/* .backDropContainer {
-    position: relative;
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-    border-radius: 12px;
-} */
 
 .backDrop {
     width: 100%;
@@ -57,20 +38,6 @@
     z-index: 1;
 }
 
-/* .profilePicture {
-    display: block;
-    margin-top: -55px;
-    margin-left: 40px;
-    margin-bottom: 10px;
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    border: 3px solid white;
-    object-fit: cover;
-    background: white;
-    position: relative;
-    z-index: 1;
-} */
 
 .postContainer {
     margin-bottom:  0.5rem;
@@ -91,11 +58,6 @@
     margin-top: 0.5rem;
 }
 
-/* .profileContainer_details {
-    margin-top: 0;
-    padding-left: 0;
-    margin-bottom: 0;
-} */
 
 .profileInfo {
     margin-top: 70px;
@@ -170,11 +132,3 @@
     box-shadow: 0px 4px 10px rgb(200, 200, 200);
 }
 
-/* .workHistoryCard {
-    min-width: fit-content;
-
-    padding-inline: 2.5rem;
-    padding-block: 1rem;
-    border-radius: 10px;
-    box-shadow: 10px 10px 15px rgb(173, 173, 173);
-} */
