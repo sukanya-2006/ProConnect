@@ -83,23 +83,7 @@ export const getAboutUser = createAsyncThunk(
     }
 )
 
-// export const getAboutUser = createAsyncThunk(
-//     "user/getAboutUser",
-//     async (_, thunkAPI) => {
-//         try {
-             
-//             const response = await clientServer.get("/get_user_and_profile", {
-//                params : {
-//                 token : user.token
-//                }
-//             })
 
-//             return thunkAPI.fulfillWithValue(response.data)
-//         } catch (err) {
-//             return thunkAPI.rejectWithValue(err.response.data)
-//         }
-//     }
-// )
 
 
 export const getAllUsers = createAsyncThunk(
@@ -115,23 +99,6 @@ export const getAllUsers = createAsyncThunk(
 );
 
 
-
-
-// export const sendConnectionRequest = createAsyncThunk(
-//     "user/sendConnectionRequest",
-//     async ( user, thunkAPI) => {
-//         try {
-//             const response = await clientServer.post("/user/send_connection_request", {
-//                 token: user.token,
-//                 connectionId: user.userId
-//             });
-//             return thunkAPI.fulfillWithValue(response.data);
-//         } catch (err) {
-//             return thunkAPI.rejectWithValue(err.response.data);
-//         }
-//     }
-// );
-
 export const sendConnectionRequest = createAsyncThunk(
     "user/sendConnectionRequest",
     async (user, thunkAPI) => {
@@ -146,6 +113,9 @@ export const sendConnectionRequest = createAsyncThunk(
         }
     }
 );
+
+
+
 
 export const getConnectionsRequest = createAsyncThunk(
     "user/getConnectionsRequest",

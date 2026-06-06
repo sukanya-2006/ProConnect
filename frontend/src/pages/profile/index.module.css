@@ -1,0 +1,160 @@
+.container {
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================
+   Banner Section
+========================= */
+.bannerSection {
+    position: relative;
+    margin-bottom: 60px;
+}
+/* .bannerSection {
+    position: relative;
+    margin-bottom: 80px;
+} */
+
+.backDropContainer {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.backDrop {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    border-radius: 12px;
+}
+
+.backdropOverlay {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.75);
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+
+    padding: 1rem;
+
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    z-index: 2;
+}
+
+.backDropContainer:hover .backdropOverlay {
+    opacity: 1;
+}
+
+.bannerEditButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+
+    padding: 0.7rem 1rem;
+
+    border-radius: 999px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.bannerEditButton:hover {
+    transform: scale(1.05);
+}
+
+/* =========================
+   Profile Picture
+========================= */
+
+
+.profileWrapper {
+   position: absolute;
+    left: 40px;
+    bottom: -50px;
+
+    width: 120px;
+    height: 120px;
+
+    z-index: 10;
+}
+/* .profileWrapper {
+    position: absolute;
+    bottom: -55px;
+    left: 40px;
+
+    width: 110px;
+    height: 110px;
+
+    z-index: 10;
+} */
+
+.profilePicture {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+    object-fit: cover;
+
+    border: 4px solid white;
+
+    background: white;
+}
+
+.profileOverlay {
+    position: absolute;
+    inset: 0;
+
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.75);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    font-size: 1.2rem;
+
+    opacity: 0;
+    transition: all 0.25s ease;
+
+    cursor: pointer;
+}
+
+.profileWrapper:hover .profileOverlay {
+    opacity: 1;
+}
+
+
+.workHistoryCard {
+    width: fit-content;
+    padding: 1rem 2.5rem;
+
+    background: white;
+
+    border-radius: 10px;
+
+    box-shadow: 0px 4px 10px rgb(200, 200, 200);
+   margin-top: 2rem;
+    margin-bottom: 1.5rem
+    
+}

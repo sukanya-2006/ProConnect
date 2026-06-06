@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { login, register, uploadProfilePicture, updateUserProfile, getUserAndProfile, updateProfileData, getAllUserProfile, downloadProfile, sendConnectionRequest, getMyConnectionsRequests, whatAreMyConnections , acceptConnectionRequest, getUserProfileAndUserBasedOnUsername,getMyNetwork } from "../controllers/user.controller.js";
+import { login, register, uploadProfilePicture, updateUserProfile, getUserAndProfile, updateProfileData, getAllUserProfile, downloadProfile, sendConnectionRequest, getMyConnectionsRequests, whatAreMyConnections , acceptConnectionRequest, getUserProfileAndUserBasedOnUsername,getMyNetwork, uploadBannerPicture } from "../controllers/user.controller.js";
 import multer from "multer";
 
 const router = Router();
@@ -17,6 +17,8 @@ const upload = multer({storage: storage})
 
 router.route("/update_profile_picture")
 .post(upload.single('profile_picture'), uploadProfilePicture)
+router.route("/update_banner_picture")
+.post(upload.single('banner_picture'), uploadBannerPicture)
 
 router.route('/register').post(register);
 router.route('/login').post(login);
@@ -25,10 +27,6 @@ router.route("/get_user_and_profile").get(getUserAndProfile);
 router.route("/update_profile_data").post(updateProfileData);
 router.route("/user/get_all_users").get(getAllUserProfile);
 router.route("/user/download_resume").get(downloadProfile);
-// router.route("user/send_connection_request").post(sendConnectionRequest);
-// router.route("user/getConnectionRequests").get(getMyConnectionsRequests);
-// router.route("user/user_connection_request").get(whatAreMyConnections);
-// router.route("user/accept_connection_request").post(acceptConnectionRequest);
 router.route("/user/get_my_network").get(getMyNetwork);
 router.route("/user/send_connection_request").post(sendConnectionRequest);
 router.route("/user/get_connections").get(whatAreMyConnections);
