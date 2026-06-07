@@ -6,10 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {BASE_URL} from '@/config'
 import { getAboutUser } from '@/config/redux/action/authAction'
 import { getAllPosts } from '@/config/redux/action/postAction'
-// import { FaCamera } from "react-icons/fa";
-// import { FaPen } from "react-icons/fa";
 import { FaCamera, FaPen } from "react-icons/fa";
-// import { headers } from 'next/headers'
 import {clientServer} from '@/config'
 
 
@@ -21,7 +18,13 @@ export default function ProfilePage() {
     const dispatch = useDispatch();
     const [userProfile, setUserProfile] = useState({});
     const [userPosts, setUserPosts] = useState([]);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingIndex, setEditingIndex] = useState(null);
+    const [inputData, setInputData] = useState({company: '', position: '', years: ''});
+    const handleWorkInputChange = (e) => {
+           const {name, value} = e.target;
+           setInputData({...inputData, [name]: value});
+    }
 
     useEffect(() => {
     dispatch(getAboutUser({token: localStorage.getItem("token")}))
@@ -93,6 +96,47 @@ const updateBannerPicture = async (file) => {
     );
 };
 
+
+const updateProfileData = async () => {
+    const request = await clientServer.post("/user_update", {
+        token: localStorage.getItem("token"),
+        name: userProfile.userId.name,
+
+    });
+
+    const response = await clientServer.post("/update_profile_data", {
+        token: localStorage.getItem("token"),
+        bio: userProfile.bio,
+        currentPost: userProfile.currentPost,
+        pastWork: userProfile.pastWork,
+        education: userProfile.education
+    });
+
+    dispatch(getAboutUser({token: localStorage.getItem("token")}));
+}
+
+
+const deleteWork = (index) => {
+
+    const updatedWork = userProfile.pastWork.filter(
+        (_, i) => i !== index
+    );
+
+    setUserProfile({
+        ...userProfile,
+        pastWork: updatedWork
+    });
+};
+
+const editWork = (index) => {
+
+    setInputData(userProfile.pastWork[index]);
+
+    setEditingIndex(index);
+
+    setIsModalOpen(true);
+};
+
 // const updatePicture = async (file) => {
 //     const formData = new FormData();
 //     formData.append("profile_picture", file);
@@ -112,91 +156,7 @@ const updateBannerPicture = async (file) => {
         <DashboardLayout>
             {authState.user && userProfile?.userId &&
 
-//             <div className={styles.container}>
-              
-//                <div className={styles.bannerSection}>
 
-//     {/* Banner */}
-//     <div className={styles.backDropContainer}>
-
-//         <img
-//             className={styles.backDrop}
-//             src="https://media.licdn.com/dms/image/v2/D4D12AQGRsL7h26w-Bg/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1711431970518?e=2147483647&v=beta&t=7MUoFdBoTt2bbPGQLIg36dcFCRHCwu1HyicK282aK6Y"
-//             alt="banner"
-//         />
-
-//         <div className={styles.backdropOverlay}>
-//             <div className={styles.bannerEditButton}>
-//                 <FaPen />
-//                 <span>Edit Cover</span>
-//             </div>
-//         </div>
-
-//     </div>
-
-//     {/* Profile Picture */}
-//     <div className={styles.profileWrapper}>
-
-//         <img
-//             className={styles.profilePicture}
-//             src={`${BASE_URL}/${userProfile.userId.profilePicture}`}
-//             alt="profile"
-//         />
-
-//         <div className={styles.profileOverlay}>
-//             <FaCamera />
-//         </div>
-
-//     </div>
-
-//   </div>
-//                 </div>
-
-//                 <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-
-//                     {/* Left column: name, button, bio, work history */}
-//                     <div style={{ flex: "0.6" }}>
-//                         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-//                             <h2 style={{ margin: 0 }}>{userProfile.userId.name}</h2>
-//                             <p style={{ color: "grey", margin: 0 }}>@{userProfile.userId.username}</p>
-//                         </div>
-
-          
-
-//                         <p style={{ marginTop: "0.5rem", color: "#444" }}>{userProfile.bio}</p>
-
-//                         <div className={styles.workHistory}>
-//                             <h4>Work History</h4>
-//                             <div className={styles.workHistoryContainer}>
-//                                 {userProfile.pastWork.map((work, index) => (
-//                                     <div key={index} className={styles.workHistoryCard}>
-//                                         <p style={{ fontWeight: "bold" }}>{work.company} - {work.position}</p>
-//                                         <p>{work.years}</p>
-//                                     </div>
-//                                 ))}
-//                             </div>
-//                         </div>
-//                     </div>
-
-//                     {/* Right column: recent activity */}
-//                     <div style={{ flex: "0.4" }}>
-//                         <h3>Recent Activity</h3>
-//                         {userPosts.map((post) => (
-//                             <div key={post._id} className={styles.postContainer}>
-//                                 <div className={styles.card}>
-//                                     <p>{post.content}</p>
-//                                     {post.media !== "" ?
-//                                         <img src={`${BASE_URL}/${post.media}`} alt="post media" className={styles.postMedia} />
-//                                         : null}
-//                                     <p>{post.body}</p>
-//                                 </div>
-//                             </div>
-//                         ))}
-//                     </div>
-
-//                 </div>
-
-//             </div>
 
 <div className={styles.container}>
 
@@ -205,21 +165,7 @@ const updateBannerPicture = async (file) => {
 
         {/* Banner */}
         <div className={styles.backDropContainer}>
-{/* 
-            <img
-                className={styles.backDrop}
-                src="https://media.licdn.com/dms/image/v2/D4D12AQGRsL7h26w-Bg/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1711431970518?e=2147483647&v=beta&t=7MUoFdBoTt2bbPGQLIg36dcFCRHCwu1HyicK282aK6Y"
-                alt="banner"
-            /> */}
-            {/* <img
-              className={styles.backDrop}
-                src={
-                userProfile?.bannerPicture
-              ? `${BASE_URL}/${userProfile.bannerPicture}`
-               : "https://media.licdn.com/dms/image/v2/D4D12AQGRsL7h26w-Bg/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1711431970518?e=2147483647&v=beta&t=7MUoFdBoTt2bbPGQLIg36dcFCRHCwu1HyicK282aK6Y"
-             }
-              alt="banner"
-            /> */}
+
             <img
                     className={styles.backDrop}
                    src={
@@ -259,10 +205,7 @@ const updateBannerPicture = async (file) => {
                 alt="profile"
             />
 
-            {/* <label htmlFor='profilePictureUpload' className={styles.profileOverlay}>
-                <FaCamera />
-            </label>
-            <input type="file" id='profilePictureUpload' /> */}
+          
             <label htmlFor="profilePictureUpload" className={styles.profileOverlay}>
             <FaCamera />
              </label>
@@ -286,17 +229,30 @@ const updateBannerPicture = async (file) => {
         {/* Left Column */}
         <div style={{ flex: "0.6" }}>
 
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                <h2 style={{ margin: 0 }}>
-                    {userProfile?.userId?.name}
-                </h2>
+            
 
-                <p style={{ color: "grey", margin: 0 }}>
-                    @{userProfile?.userId?.username}
-                </p>
-            </div>
+             <div className={styles.profileNameRow}>
+             <input
+                className={styles.nameEdit}
+               type="text"
+               value={userProfile.userId.name}
+                onChange={(e) => {
+              setUserProfile({
+                ...userProfile,
+                userId: {
+                    ...userProfile.userId,
+                    name: e.target.value
+                }
+            })
+        }}
+    />
 
-            <p 
+    <p className={styles.username}>
+        @{userProfile?.userId?.username}
+    </p>
+</div>
+
+            {/* <p 
              style={{
               marginTop: "0.5rem",
              marginBottom: "2rem",
@@ -304,7 +260,25 @@ const updateBannerPicture = async (file) => {
             }}
               >
                 {userProfile?.bio}
-            </p>
+            </p> */}
+             <textarea 
+               className={styles.textarea}
+               spellCheck={false}
+              autoCorrect="off"
+              autoCapitalize="off"
+             style={{
+              marginTop: "0.5rem",
+             marginBottom: "2rem",
+             color: "#444",
+             width: "100%"
+            }}  value={userProfile.bio}
+                onChange={(e) => {
+                    setUserProfile({...userProfile, bio: e.target.value});
+                }}
+                rows={Math.max(3, Math.ceil(userProfile.bio.length / 80))}
+            >
+
+            </textarea>
 
             <div className={styles.workHistory}>
                 <h4>Work History</h4>
@@ -320,15 +294,61 @@ const updateBannerPicture = async (file) => {
                             </p>
 
                             <p>{work.years}</p>
+
+                             <div className={styles.workActions}>
+                             <button
+                              onClick={() => editWork(index)}
+                             >
+                               Edit
+                              </button>
+
+                            <button
+                              onClick={() => deleteWork(index)}
+                            >
+                             Delete
+                             </button>
+                           </div>
                         </div>
                     ))}
                 </div>
+                {/* <button
+                className={styles.addWorkButton} onClick={() => {
+                  setIsModalOpen(true)
+                }}
+                >Add Work</button> */}
+
+                <button
+                 className={styles.addWorkButton}
+                      onClick={() => {
+
+                      setEditingIndex(null);
+
+                       setInputData({
+                       company: "",
+                         position: "",
+                         years: ""
+                        });
+
+                     setIsModalOpen(true);
+                      }}
+                      >
+                        Add Work
+                     </button>
             </div>
+            {userProfile != authState.user &&
+              <div onClick={() => {
+                 updateProfileData();
+              }}
+              className={styles.updateProfileBtn}>
+                Update Profile
+            </div>
+
+            }
 
         </div>
 
         {/* Right Column */}
-        <div style={{ flex: "0.4" }}>
+        <div style={{ flex: "0.4",  maxWidth: "400px" }}>
 
             <h3>Recent Activity</h3>
 
@@ -361,6 +381,99 @@ const updateBannerPicture = async (file) => {
 
 </div>
 }
+
+
+
+
+                              {
+                                 isModalOpen  &&
+
+                                 <div 
+                                   onClick={() => {
+                                    setIsModalOpen(false)
+                                   }}
+                                 className={styles.commentsContainer}>
+                                    <div 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                    }}
+                                    className={styles.allCommentsContainer}>
+
+                                     <input
+                                 
+                                 onChange={handleWorkInputChange}
+                                 value={inputData.company}
+                                 name='company'
+                                 className={styles.inputField}
+                                 type="text"
+                                 placeholder='Enter Company'
+                                 />
+                                   <input
+                                 
+                                 onChange={handleWorkInputChange}
+                                 value={inputData.position}
+                                 name='position'
+                                 className={styles.inputField}
+                                 type="text"
+                                 placeholder='Enter Position'
+                                 />
+                                   <input
+                                 
+                                 onChange={handleWorkInputChange}
+                                 value={inputData.years}
+                                 name='years'
+                                 className={styles.inputField}
+                                 type="number"
+                                 placeholder='Years'
+                                 />
+
+                                 {/* <div onClick= {() => {
+                                    setUserProfile({...userProfile, pastWork:[...userProfile.pastWork, inputData]})
+                                    setIsModalOpen(false)
+                                 }}className={styles.updateProfileBtn}>Add Work</div> */}
+
+                                 <div
+onClick={() => {
+
+    if (editingIndex !== null) {
+
+        const updatedWork = [...userProfile.pastWork];
+
+        updatedWork[editingIndex] = inputData;
+
+        setUserProfile({
+            ...userProfile,
+            pastWork: updatedWork
+        });
+
+        setEditingIndex(null);
+
+    } else {
+
+        setUserProfile({
+            ...userProfile,
+            pastWork: [...userProfile.pastWork, inputData]
+        });
+
+    }
+
+    setInputData({
+        company: "",
+        position: "",
+        years: ""
+    });
+
+    setIsModalOpen(false);
+
+}}
+className={styles.updateProfileBtn}
+>
+    {editingIndex !== null ? "Update Work" : "Add Work"}
+</div>
+
+                                    </div>
+                                 </div>
+                                  }
         </DashboardLayout>
        </UserLyout>
     )
