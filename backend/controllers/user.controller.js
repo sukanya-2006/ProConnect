@@ -15,9 +15,47 @@ const convertUserDataTOPDF = async (userData) => {
     const stream = fs.createWriteStream("uploads/" + outputPath)
 
     doc.pipe(stream);
+    // console.log("PROFILE PIC:", userData.userId.profilePicture);
+    // console.log("PATH:", `uploads/${userData.userId.profilePicture}`);
+    // console.log("FILE EXISTS:", fs.existsSync(imagePath));
+    // doc.image(`uploads/${userData.userId.profilePicture}`,{align : "center", width: 100})
+//     const imagePath = `uploads/${userData.userId.profilePicture}`;
 
-    doc.image(`uploads/${userData.userId.profilePicture}`,{align : "center", width: 100})
-
+//   try {
+//     if (
+//         userData.userId.profilePicture &&
+//         (
+//             imagePath.endsWith(".jpg") ||
+//             imagePath.endsWith(".jpeg") ||
+//             imagePath.endsWith(".png")
+//         )
+//     ) {
+//         doc.image(imagePath, {
+//             align: "center",
+//             width: 100
+//         });
+//     }
+// } catch (error) {
+//     console.log("IMAGE ERROR:", error.message);
+// }
+    const imagePath = `uploads/${userData.userId.profilePicture}`;
+    console.log("USER:", userData.userId.name);
+    console.log("IMAGE:", imagePath);
+    console.log("EXISTS:", fs.existsSync(imagePath));
+if (fs.existsSync(imagePath)) {
+    try {
+        doc.image(imagePath, {
+            align: "center",
+            width: 100
+        });
+    } catch (err) {
+        console.log(
+            "Failed to load image:",
+            imagePath,
+            err.message
+        );
+    }
+}
     doc.fontSize(14).text(`Name: ${userData.userId.name}`);
     doc.fontSize(14).text(`Username: ${userData.userId.username}`);
     doc.fontSize(14).text(`Email: ${userData.userId.email}`);
@@ -241,7 +279,7 @@ export const downloadProfile = async (req, res) => {
     const user_id = req.query.id;
 
     const userProfile = await Profile.findOne({ userId : user_id})
-       .populate('userId', 'name username email profilePicture');
+       .populate('userId', 'name username email profilePicture bannerPicture');
 
 
     let outputPath = await convertUserDataTOPDF(userProfile);
