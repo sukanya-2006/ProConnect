@@ -79,7 +79,7 @@
     font-size: 1rem;
 }
 
-.connectBtn {
+/* .connectBtn {
     padding-inline: 1.5rem;
     padding-block: 0.5rem;
     background: #0073b1;
@@ -89,8 +89,68 @@
     cursor: pointer;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+} */
+
+
+
+.connectBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.6rem 1.5rem;
+
+    background: #0a66c2;
+    color: white;
+
+    border: none;
+    border-radius: 999px;
+
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: 0 2px 8px rgba(10, 102, 194, 0.2);
+
+    transition: all 0.2s ease;
 }
 
+.connectBtn:hover {
+    background: #004182;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(10, 102, 194, 0.3);
+}
+
+.connectBtn:active {
+    transform: translateY(0);
+}
+
+.connectedButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.55rem 1.4rem;
+
+    background: white;
+    color: #0a66c2;
+
+    border: 1px solid #0a66c2;
+    border-radius: 999px;
+
+    font-weight: 600;
+    font-size: 0.95rem;
+
+    cursor: default;
+
+    transition: 0.2s ease;
+}
+
+.connectedButton:hover {
+    background: rgba(10, 102, 194, 0.08);
+}
+/* 
 .connectedButton {
     padding-inline: 1.5rem;
     padding-block: 0.5rem;
@@ -101,7 +161,7 @@
     cursor: not-allowed;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-}
+} */
 
 .pendingButton {
     background-color: #f3f4f6;
