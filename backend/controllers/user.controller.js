@@ -90,19 +90,41 @@ export const register = async (req, res) => {
        if (user) return res.status(400).json({message: "User already exists"})
 
        const hashedPassword = await bcrypt.hash(password, 10);
-       const newUser = new User ({
-        name,
-        email,
-        password: hashedPassword,
-        username
-       });
+    //    const newUser = new User ({
+    //     name,
+    //     email,
+    //     password: hashedPassword,
+    //     username
+    //    });
 
-       await newUser.save();
+    //    await newUser.save();
        
-       const profile = new Profile({userId: newUser._id});
-       await profile.save();
+    //    const profile = new Profile({userId: newUser._id});
+    //    await profile.save();
 
-       return res.json({message: "User created"})
+    //    return res.json({message: "User created"})
+     const token = crypto.randomBytes(32).toString("hex");
+
+const newUser = new User({
+   name,
+   email,
+   password: hashedPassword,
+   username,
+   token
+});
+
+await newUser.save();
+
+const profile = new Profile({
+   userId: newUser._id
+});
+
+await profile.save();
+
+return res.json({
+   token,
+   message: "User created"
+});
 
     } catch (error) {
     if (error.code === 11000) {
@@ -521,7 +543,7 @@ export const getUserProfileAndUserBasedOnUsername = async (req, res) => {
         return res.status(404).json({message: "User not found"})
     }
     const userProfile = await Profile.findOne({userId: user._id})
-    .populate('userId', 'name username email profilePicture');
+    .populate('userId', 'name username email profilePicture bannerPicture');
 
     return res.json({"profile" : userProfile})
 } catch(err) {

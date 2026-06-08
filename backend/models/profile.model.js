@@ -54,6 +54,10 @@ const ProfileSchema = new mongoose.Schema({
     education: {
         type: [educationSchema],
         default: []
+    },
+     skills: {
+        type: [String],
+        default: []
     }
    
 });

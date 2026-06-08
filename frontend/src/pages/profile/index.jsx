@@ -25,11 +25,25 @@ export default function ProfilePage() {
            const {name, value} = e.target;
            setInputData({...inputData, [name]: value});
     }
+    const [educationInput, setEducationInput] = useState({
+    school: "",
+    degree: "",
+    fieldOfStudy: ""
+});
+
+const [educationEditingIndex, setEducationEditingIndex] =
+    useState(null);
+
+const [educationModalOpen, setEducationModalOpen] =
+    useState(false);
 
     useEffect(() => {
     dispatch(getAboutUser({token: localStorage.getItem("token")}))
     dispatch(getAllPosts())
 }, [])
+
+const [skillInput, setSkillInput] = useState("");
+const [skillsModalOpen, setSkillsModalOpen] = useState(false);
 
  useEffect(() => {
    setUserProfile(authState.user)
@@ -109,7 +123,8 @@ const updateProfileData = async () => {
         bio: userProfile.bio,
         currentPost: userProfile.currentPost,
         pastWork: userProfile.pastWork,
-        education: userProfile.education
+        education: userProfile.education,
+        skills: userProfile.skills
     });
 
     dispatch(getAboutUser({token: localStorage.getItem("token")}));
@@ -137,19 +152,71 @@ const editWork = (index) => {
     setIsModalOpen(true);
 };
 
-// const updatePicture = async (file) => {
-//     const formData = new FormData();
-//     formData.append("profile_picture", file);
-//     formData.append("token", localStorage.getItem("token"));
 
-//     const response = await clientServer.post("/update_profile_picture", formData, {
-//         headers: {
-//             'Content-Type': 'multipart/form-data',
-//         },
-//     });
+const deleteEducation = (index) => {
 
-//     dispatch(getAboutUser({token: localStorage.getItem("token")}));
-// }
+    const updatedEducation =
+        userProfile.education.filter(
+            (_, i) => i !== index
+        );
+
+    setUserProfile({
+        ...userProfile,
+        education: updatedEducation
+    });
+};
+
+const editEducation = (index) => {
+
+    setEducationInput(
+        userProfile.education[index]
+    );
+
+    setEducationEditingIndex(index);
+
+    setEducationModalOpen(true);
+};
+
+const handleEducationInputChange = (e) => {
+
+    const { name, value } = e.target;
+
+    setEducationInput({
+        ...educationInput,
+        [name]: value
+    });
+};
+
+
+const addSkill = () => {
+
+    if (!skillInput.trim()) return;
+
+    setUserProfile({
+        ...userProfile,
+        skills: [
+            ...(userProfile.skills || []),
+            skillInput
+        ]
+    });
+
+    setSkillInput("");
+    setSkillsModalOpen(false);
+};
+
+const deleteSkill = (index) => {
+
+    const updatedSkills =
+        userProfile.skills.filter(
+            (_, i) => i !== index
+        );
+
+    setUserProfile({
+        ...userProfile,
+        skills: updatedSkills
+    });
+};
+
 
     return (
        <UserLyout>
@@ -166,7 +233,7 @@ const editWork = (index) => {
         {/* Banner */}
         <div className={styles.backDropContainer}>
 
-            <img
+            {/* <img
                     className={styles.backDrop}
                    src={
                    userProfile?.userId?.bannerPicture
@@ -174,7 +241,27 @@ const editWork = (index) => {
                   : "default-banner-url"
                   }
                   alt="banner"
-                />
+                /> */}
+
+                {
+       userProfile?.userId?.bannerPicture ? (
+
+<img
+ className={styles.backDrop}
+ src={`${BASE_URL}/${userProfile.userId.bannerPicture}`}
+ alt="banner"
+/>
+
+) : (
+
+<div className={styles.emptyBanner}>
+    <FaCamera />
+    <h3>Add a Cover Photo</h3>
+    <p>Make your profile stand out.</p>
+</div>
+
+)
+}
 
             <label htmlFor='ProfileBannerUpload' className={styles.backdropOverlay}>
                 <div  className={styles.bannerEditButton}>
@@ -199,11 +286,28 @@ const editWork = (index) => {
         {/* Profile Picture */}
         <div className={styles.profileWrapper}>
 
-            <img
-                className={styles.profilePicture}
-                src={`${BASE_URL}/${userProfile?.userId?.profilePicture}`}
-                alt="profile"
-            />
+            
+
+            {
+// userProfile?.userId?.profilePicture ?
+userProfile?.userId?.profilePicture &&
+userProfile?.userId?.profilePicture !== "default.jpg" ?
+ (
+
+<img
+ className={styles.profilePicture}
+ src={`${BASE_URL}/${userProfile.userId.profilePicture}`}
+ alt="profile"
+/>
+
+) : (
+
+<div className={styles.emptyProfilePicture}>
+     <FaCamera />
+</div>
+
+)
+}
 
           
             <label htmlFor="profilePictureUpload" className={styles.profileOverlay}>
@@ -224,10 +328,11 @@ const editWork = (index) => {
     </div>
 
     {/* Main Content */}
-    <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
+  <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start", flexWrap: "wrap" ,  width: "100%"}}>
 
         {/* Left Column */}
-        <div style={{ flex: "0.6" }}>
+        {/* <div style={{ flex: "0.6" }}> */}
+        <div style={{ flex: "1 1 280px", minWidth: "0", width: "100%" }}>
 
             
 
@@ -252,15 +357,17 @@ const editWork = (index) => {
     </p>
 </div>
 
-            {/* <p 
-             style={{
-              marginTop: "0.5rem",
-             marginBottom: "2rem",
-             color: "#444"
-            }}
-              >
-                {userProfile?.bio}
-            </p> */}
+            
+
+            {
+!userProfile?.bio?.trim() && (
+
+<div className={styles.profileTip}>
+   ✨ Add a bio to tell others about yourself
+</div>
+
+)
+}
              <textarea 
                className={styles.textarea}
                spellCheck={false}
@@ -279,6 +386,8 @@ const editWork = (index) => {
             >
 
             </textarea>
+
+        
 
             <div className={styles.workHistory}>
                 <h4>Work History</h4>
@@ -310,6 +419,17 @@ const editWork = (index) => {
                            </div>
                         </div>
                     ))}
+
+                    {
+userProfile?.pastWork?.length === 0 && (
+
+<div className={styles.emptySection}>
+   <h4>No Work Experience Added</h4>
+   <p>Add your internships, jobs or freelance work.</p>
+</div>
+
+)
+}
                 </div>
                 {/* <button
                 className={styles.addWorkButton} onClick={() => {
@@ -335,6 +455,136 @@ const editWork = (index) => {
                         Add Work
                      </button>
             </div>
+
+
+
+            <div className={styles.workHistory}>
+
+    <h4>Education History</h4>
+
+    <div className={styles.workHistoryContainer}>
+
+        {userProfile?.education?.map(
+            (edu, index) => (
+
+            <div
+                key={index}
+                className={styles.workHistoryCard}
+            >
+
+                <p style={{fontWeight:"bold"}}>
+                    {edu.school}
+                </p>
+
+                <p>{edu.degree}</p>
+
+                <p>{edu.fieldOfStudy}</p>
+
+                <div className={styles.workActions}>
+
+                    <button
+                        onClick={() =>
+                            editEducation(index)
+                        }
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        onClick={() =>
+                            deleteEducation(index)
+                        }
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+        ))}
+
+        {
+userProfile?.education?.length === 0 && (
+
+<div className={styles.emptySection}>
+   <h4>No Education Added</h4>
+   <p>Add your school, college or degree.</p>
+</div>
+
+)
+}
+    </div>
+
+    <button
+        className={styles.addWorkButton}
+        onClick={() => {
+
+            setEducationEditingIndex(null);
+
+            setEducationInput({
+                school: "",
+                degree: "",
+                fieldOfStudy: ""
+            });
+
+            setEducationModalOpen(true);
+
+        }}
+    >
+        Add Education
+    </button>
+
+</div>
+
+<div className={styles.workHistory}>
+
+    <h4>Skills</h4>
+
+    <div className={styles.skillsContainer}>
+
+        {userProfile.skills?.map(
+            (skill, index) => (
+
+            <div
+                key={index}
+                className={styles.skillBadge}
+            >
+                {skill}
+
+                <span
+                    onClick={() =>
+                        deleteSkill(index)
+                    }
+                    className={styles.skillDelete}
+                >
+                    ×
+                </span>
+
+            </div>
+        ))}
+
+        {
+userProfile?.skills?.length === 0 && (
+
+<div className={styles.emptySection}>
+   <h4>No Skills Added</h4>
+   <p>Add technologies and skills you know.</p>
+</div>
+
+)
+}
+    </div>
+
+    <button
+        className={styles.addWorkButton}
+        onClick={() =>
+            setSkillsModalOpen(true)
+        }
+    >
+        Add Skill
+    </button>
+
+</div>
             {userProfile != authState.user &&
               <div onClick={() => {
                  updateProfileData();
@@ -348,8 +598,9 @@ const editWork = (index) => {
         </div>
 
         {/* Right Column */}
-        <div style={{ flex: "0.4",  maxWidth: "400px" }}>
-
+        {/* <div style={{ flex: "0.4",  maxWidth: "400px" }}> */}
+        {/* <div style={{ flex: "0.4", maxWidth: "400px", minWidth: "280px" }}> */}
+        <div style={{  flex: "1 1 280px", minWidth: "0", width: "100%" }}>
             <h3>Recent Activity</h3>
 
             {userPosts.map((post) => (
@@ -374,6 +625,16 @@ const editWork = (index) => {
                     </div>
                 </div>
             ))}
+            {
+userPosts.length === 0 && (
+
+<div className={styles.emptySection}>
+   <h4>No Posts Yet</h4>
+   <p>Your posts and updates will appear here.</p>
+</div>
+
+)
+}
 
         </div>
 
@@ -474,6 +735,146 @@ className={styles.updateProfileBtn}
                                     </div>
                                  </div>
                                   }
+
+{
+educationModalOpen &&
+
+<div
+    onClick={() =>
+        setEducationModalOpen(false)
+    }
+    className={styles.commentsContainer}
+>
+
+<div
+    onClick={(e) =>
+        e.stopPropagation()
+    }
+    className={styles.allCommentsContainer}
+>
+
+<input
+    name="school"
+    value={educationInput.school}
+    onChange={
+      handleEducationInputChange
+    }
+    className={styles.inputField}
+    placeholder="School / College"
+/>
+
+<input
+    name="degree"
+    value={educationInput.degree}
+    onChange={
+      handleEducationInputChange
+    }
+    className={styles.inputField}
+    placeholder="Degree"
+/>
+
+<input
+    name="fieldOfStudy"
+    value={educationInput.fieldOfStudy}
+    onChange={
+      handleEducationInputChange
+    }
+    className={styles.inputField}
+    placeholder="Field of Study"
+/>
+
+<div
+className={styles.updateProfileBtn}
+onClick={() => {
+
+    if (
+      educationEditingIndex !== null
+    ) {
+
+        const updatedEducation = [
+            ...userProfile.education
+        ];
+
+        updatedEducation[
+            educationEditingIndex
+        ] = educationInput;
+
+        setUserProfile({
+            ...userProfile,
+            education:
+                updatedEducation
+        });
+
+    } else {
+
+        setUserProfile({
+            ...userProfile,
+            education: [
+                ...userProfile.education,
+                educationInput
+            ]
+        });
+    }
+
+    setEducationInput({
+        school: "",
+        degree: "",
+        fieldOfStudy: ""
+    });
+
+    setEducationEditingIndex(null);
+
+    setEducationModalOpen(false);
+}}
+>
+{educationEditingIndex !== null
+ ? "Update Education"
+ : "Add Education"}
+</div>
+
+</div>
+</div>
+}
+
+{
+skillsModalOpen &&
+
+<div
+    className={styles.commentsContainer}
+    onClick={() =>
+        setSkillsModalOpen(false)
+    }
+>
+
+<div
+    className={styles.allCommentsContainer}
+    onClick={(e) =>
+        e.stopPropagation()
+    }
+>
+
+<input
+    className={styles.inputField}
+    placeholder="Enter Skill"
+    value={skillInput}
+    onChange={(e) =>
+        setSkillInput(e.target.value)
+    }
+/>
+
+<div
+    className={styles.updateProfileBtn}
+    onClick={addSkill}
+>
+    Add Skill
+</div>
+
+</div>
+
+</div>
+}
+
+
         </DashboardLayout>
        </UserLyout>
     )
