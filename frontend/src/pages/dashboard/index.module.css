@@ -178,7 +178,9 @@
 
 .allCommentsContainer {
     width: 40vw;
+    min-width: 40svh;
     height: 80vh;
+    max-width: 1120px;
     background: white;
     border-radius: 10px;
     position: relative;
@@ -218,4 +220,78 @@
     text-align: center;
     color: white;
     cursor: pointer;
+}
+
+
+@media screen and (max-width: 600px) {
+    .allCommentsContainer{
+        width: 100svh;
+    }
+}
+
+
+/* .emptyProfilePicture {
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.8rem;
+    font-weight: 700;
+
+    flex-shrink: 0;
+} */
+
+
+.emptyProfilePicture {
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.8rem;
+    font-weight: 700;
+
+    flex-shrink: 0;
+}
+
+
+.emptyCommentProfile {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: bold;
 }

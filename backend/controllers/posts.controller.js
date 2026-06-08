@@ -143,29 +143,86 @@ export const delete_comment_of_user = async(req, res) => {
 }
 
 
-export const increment_likes = async(req, res) => {
+// export const increment_likes = async(req, res) => {
 
 
-    const {post_id} = req.body;
+//     const {post_id} = req.body;
 
+
+//     try {
+
+//       const post = await Post.findOne({_id: post_id});
+
+//       if(!post) {
+//         return res.status(404).json({message: "Post not found"})
+//        }
+
+//       post.likes = post.likes + 1;
+
+//       await post.save();
+
+//       return res.json({message: "Likes incremented"})
+
+
+
+//     } catch (err) {
+//        return res.status(500).json({message: err.message})
+//     }
+// }
+
+
+export const increment_likes = async (req, res) => {
+
+    const { post_id, token } = req.body;
 
     try {
 
-      const post = await Post.findOne({_id: post_id});
+        const user = await User.findOne({ token });
 
-      if(!post) {
-        return res.status(404).json({message: "Post not found"})
-       }
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
 
-      post.likes = post.likes + 1;
+        const post = await Post.findById(post_id);
 
-      await post.save();
+        if (!post) {
+            return res.status(404).json({
+                message: "Post not found"
+            });
+        }
 
-      return res.json({message: "Likes incremented"})
+        const alreadyLiked = post.likes.some(
+            id => id.toString() === user._id.toString()
+        );
 
+        if (alreadyLiked) {
 
+            post.likes = post.likes.filter(
+                id => id.toString() !== user._id.toString()
+            );
+
+            await post.save();
+
+            return res.json({
+                liked: false,
+                likesCount: post.likes.length
+            });
+        }
+
+        post.likes.push(user._id);
+
+        await post.save();
+
+        return res.json({
+            liked: true,
+            likesCount: post.likes.length
+        });
 
     } catch (err) {
-       return res.status(500).json({message: err.message})
+        return res.status(500).json({
+            message: err.message
+        });
     }
-}
+};
