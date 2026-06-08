@@ -84,3 +84,52 @@
     width: 420px;
     height: auto;
 }
+
+
+
+@media screen and (max-width: 768px) {
+
+    .container {
+        padding: 1rem;
+        overflow-x: hidden;
+    }
+
+    .mainContainer {
+        flex-direction: column;
+        text-align: center;
+
+        min-height: auto;
+        padding: 2rem 1rem;
+        gap: 2rem;
+    }
+
+    .mainContainer_left {
+        width: 100%;
+        flex: unset;
+    }
+
+    .mainContainer_right {
+        width: 100%;
+        flex: unset;
+        display: flex;
+        justify-content: center;
+    }
+
+    .mainContainer_left > p:nth-child(1) {
+        font-size: 2.8rem;
+    }
+
+    .mainContainer_left > p:nth-child(2) {
+        font-size: 1rem;
+    }
+
+    .mainContainer_left > div.buttonJoin {
+        margin-inline: auto;
+    }
+
+    .mainContainer_right img {
+        width: 280px;
+        max-width: 100%;
+        height: auto;
+    }
+}
