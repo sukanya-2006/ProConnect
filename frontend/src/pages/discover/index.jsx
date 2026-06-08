@@ -22,7 +22,8 @@ const dispatch = useDispatch();
       <UserLayout>
         <DashboardLayout>
             <div>
-                <h1>Discover</h1>
+                {/* <h1>Discover</h1> */}
+                <h1 className={styles.pageTitle}>Discover</h1>
 
                 <div className={styles.allUserProfile}>
 
@@ -31,10 +32,29 @@ const dispatch = useDispatch();
                         <div onClick={() => {
                             router.push(`/view_profile/${user.userId.username}`)
                         }} key={user._id} className={styles.userCard}>
-                            <img className={styles.userCard__image} src={`${BASE_URL}/${user.userId.profilePicture}`} alt="profile" />
+                            {/* <img className={styles.userCard__image} src={`${BASE_URL}/${user.userId.profilePicture}`} alt="profile" /> */}
+
+                            {
+  user.userId.profilePicture &&
+  user.userId.profilePicture !== "default.jpg" ? (
+
+    <img
+      className={styles.userCard__image}
+      src={`${BASE_URL}/${user.userId.profilePicture}`}
+      alt="profile"
+    />
+
+  ) : (
+
+    <div className={styles.emptyProfilePicture}>
+      {user.userId.name?.charAt(0)?.toUpperCase()}
+    </div>
+
+  )
+}
                             <div>
                             <h1>{user.userId.name}</h1>
-                            <p>{user.userId.username}</p>
+                            <p>@{user.userId.username}</p>
                             </div>
                             
                         </div>
