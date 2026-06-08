@@ -30,7 +30,14 @@ function LoginComponent() {
         router.push("/dashboard")
      }
   }, [])
-
+  useEffect(() => {
+    if (
+        authState.message ===
+        "Registration is successful, Please Login"
+    ) {
+        setUserLoginMethod(true);
+    }
+}, [authState.message]);
 
   useEffect(() => {
     dispatch(emptyMessage())
