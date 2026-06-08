@@ -3,7 +3,6 @@ import UserLayout from '@/layout/UserLayout'
 import DashboardLayout from '@/layout/DashboardLayout'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-// import { getMyConnectionsRequest } from '@/config/redux/action/authAction'
 import {getConnectionsRequest,AcceptConnection} from '@/config/redux/action/authAction';
 import styles from "./index.module.css"
 import { BASE_URL } from '@/config'
@@ -21,9 +20,7 @@ useEffect(() => {
   }));
 }, [])
 
-// useEffect(() => {
-//   dispatch(getMyConnectionsRequest({token: localStorage.getItem("token")}));
-// }, [])
+
 
 useEffect(() => {
    if (authState.connectionRequest.length != 0)

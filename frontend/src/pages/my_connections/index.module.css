@@ -1,4 +1,4 @@
-.userCard {
+/* .userCard {
     display: flex;
     width: 100%;
     gap: 1.2rem;
@@ -6,14 +6,58 @@
     align-items: center;
     box-shadow: 10px 10px 10px 0px rgba(0, 0, 0, 0.1);
 
+} */
+.userCard {
+    display: flex;
+    width: 100%;
+
+    padding: 1rem;
+
+    margin-bottom: 1rem;
+
+    background: white;
+
+    border-radius: 12px;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
 }
 
-.profilePicture > img {
+.userCard:hover {
+    transform: translateY(-2px);
+}
+
+
+/* .profilePicture > img {
     width: 5.5rem;
     border-radius: 50%;
 
+} */
+
+.profilePicture > img {
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    display: block;
 }
 
+
+.userInfo h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.userInfo p {
+    margin-top: 0.2rem;
+    color: #6b7280;
+}
 .myConnections {
     display: flex;
     width: 100%;
@@ -76,4 +120,77 @@
 
     color: #111827;
 }
+
+@media (max-width: 768px) {
+
+    .userCard {
+        padding: 0.8rem;
+    }
+
+    .profilePicture > img {
+        width: 55px;
+        height: 55px;
+    }
+
+    .userInfo h3 {
+        font-size: 1rem;
+    }
+
+    .userInfo p {
+        font-size: 0.85rem;
+    }
+
+    .connectedButton,
+    .rejectButton {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .networkHeading {
+        font-size: 1.5rem;
+    }
+
+     .connectionRow {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .connectionButtons {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+.connectionRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.connectionLeft {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.connectionButtons {
+    display: flex;
+    gap: 10px;
+}
+
+/* @media (max-width: 768px) {
+
+    .connectionRow {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .connectionButtons {
+        width: 100%;
+        justify-content: flex-start;
+    }
+} */
 
