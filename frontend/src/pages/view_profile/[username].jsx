@@ -11,7 +11,7 @@ import { useRouter} from 'next/router';
 import { getConnectionsRequest,getMyConnectionsRequest, sendConnectionRequest} from '@/config/redux/action/authAction';
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.css";
-
+               
 export default function ViewProfilePage({ userProfile }) {
 
     // const searchParamers = useSearchParams();
@@ -111,31 +111,70 @@ useEffect(() => {
     getUsersPost();
 }, [])
 
+console.log("USER PROFILE", userProfile);
+console.log("BANNER", userProfile?.userId?.bannerPicture);
+
 return (
     <UserLayout>
         <DashboardLayout>
+           
             <div className={styles.container}>
 
                 <div className={styles.backDropContainer}>
+                  
+                    
                     {/* <img
-                        className={styles.backDrop}
-                        src="https://media.licdn.com/dms/image/v2/D4D12AQGRsL7h26w-Bg/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1711431970518?e=2147483647&v=beta&t=7MUoFdBoTt2bbPGQLIg36dcFCRHCwu1HyicK282aK6Y"
-                        alt="banner"
-                    /> */}
-                    <img
                     className={styles.backDrop}
                     src={
-                     userProfile?.bannerPicture
-                     ? `${BASE_URL}/${userProfile.bannerPicture}`
+                     userProfile?.userId?.bannerPicture
+                     ? `${BASE_URL}/${userProfile.userId.bannerPicture}`
                      : "https://media.licdn.com/dms/image/v2/D4D12AQGRsL7h26w-Bg/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1711431970518?e=2147483647&v=beta&t=7MUoFdBoTt2bbPGQLIg36dcFCRHCwu1HyicK282aK6Y"
                      }
                      alt="banner"
-                     />
-                    <img
+                     /> */}
+
+
+                     {
+userProfile?.userId?.bannerPicture ? (
+
+    <img
+        className={styles.backDrop}
+        src={`${BASE_URL}/${userProfile.userId.bannerPicture}`}
+        alt="banner"
+    />
+
+) : (
+
+    <div className={styles.emptyBanner}>
+        
+        <p>This user hasn't uploaded a banner yet.</p>
+    </div>
+
+)
+}
+                    {/* <img
                         className={styles.profilePicture}
                         src={`${BASE_URL}/${userProfile.userId.profilePicture}`}
                         alt="profile"
-                    />
+                    /> */}
+                    {
+userProfile?.userId?.profilePicture &&
+userProfile?.userId?.profilePicture !== "default.jpg" ? (
+
+    <img
+        className={styles.profilePicture}
+        src={`${BASE_URL}/${userProfile.userId.profilePicture}`}
+        alt="profile"
+    />
+
+) : (
+
+    <div className={styles.emptyProfilePicture}>
+         {userProfile?.userId?.name?.charAt(0)?.toUpperCase()}
+    </div>
+
+)
+}
                 </div>
 
                 <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
@@ -190,6 +229,57 @@ return (
                                 ))}
                             </div>
                         </div>
+
+                        <div className={styles.workHistory}>
+    <h4>Education History</h4>
+
+    <div className={styles.workHistoryContainer}>
+        {userProfile.education?.map((edu, index) => (
+            <div
+                key={index}
+                className={styles.workHistoryCard}
+            >
+                <p style={{ fontWeight: "bold" }}>
+                    {edu.school}
+                </p>
+
+                <p>{edu.degree}</p>
+
+                <p>{edu.fieldOfStudy}</p>
+            </div>
+        ))}
+    </div>
+</div>
+
+
+<div className={styles.workHistory}>
+    <h4>Skills</h4>
+
+    <div
+        style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px",
+            marginTop: "1rem"
+        }}
+    >
+        {userProfile.skills?.map((skill, index) => (
+            <div
+                key={index}
+                style={{
+                    padding: "8px 16px",
+                    background: "#eef3f8",
+                    color: "#0a66c2",
+                    borderRadius: "20px",
+                    fontSize: "0.95rem",
+                    fontWeight: "500"
+                }}
+            >
+                {skill}
+            </div>
+        ))}
+    </div>
+</div>
                     </div>
 
                     {/* Right column: recent activity */}
