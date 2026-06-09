@@ -47,7 +47,8 @@ user?.userId?.profilePicture !== "default.jpg" ? (
 
     <img
       className={styles.userCard__image}
-      src={`${BASE_URL}/${user.userId.profilePicture}`}
+      // src={`${BASE_URL}/${user.userId.profilePicture}`}
+      src={user.userId.profilePicture}
       alt="profile"
     />
 

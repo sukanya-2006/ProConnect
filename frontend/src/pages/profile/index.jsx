@@ -240,7 +240,8 @@ const deleteSkill = (index) => {
 
 <img
  className={styles.backDrop}
- src={`${BASE_URL}/${userProfile.userId.bannerPicture}`}
+//  src={`${BASE_URL}/${userProfile.userId.bannerPicture}`}
+src={userProfile.userId.bannerPicture}
  alt="banner"
 />
 
@@ -288,7 +289,8 @@ userProfile?.userId?.profilePicture !== "default.jpg" ?
 
 <img
  className={styles.profilePicture}
- src={`${BASE_URL}/${userProfile.userId.profilePicture}`}
+//  src={`${BASE_URL}/${userProfile.userId.profilePicture}`}
+src={userProfile.userId.profilePicture}
  alt="profile"
 />
 
@@ -606,7 +608,8 @@ userProfile?.skills?.length === 0 && (
 
                         {post.media !== "" && (
                             <img
-                                src={`${BASE_URL}/${post.media}`}
+                                // src={`${BASE_URL}/${post.media}`}
+                                src={post.media}
                                 alt="post media"
                                 className={styles.postMedia}
                             />

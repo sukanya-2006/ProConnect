@@ -68,7 +68,8 @@ export default function Dashboard() {
 
     <img
       className={styles.userProfile}
-      src={`${BASE_URL}/${authState.user.userId.profilePicture}`}
+      // src={`${BASE_URL}/${authState.user.userId.profilePicture}`}
+      src={authState.user.userId.profilePicture}
       alt="profile"
     />
 
@@ -122,7 +123,8 @@ console.log("HAS LIKED:", hasLiked);
 
     <img
       className={styles.userProfile}
-      src={`${BASE_URL}/${post.userId.profilePicture}`}
+      // src={`${BASE_URL}/${post.userId.profilePicture}`}
+      src={post.userId.profilePicture}
       alt="User Profile"
     />
 
@@ -162,7 +164,8 @@ console.log("HAS LIKED:", hasLiked);
                                post.media?.trim() && (
                                <div className={styles.singleCard_image}>
                                 <img
-                                 src={`${BASE_URL}/uploads/${post.media}`}
+                                //  src={`${BASE_URL}/uploads/${post.media}`}
+                                src={post.media}
                                  alt="Post Media"
                                      />
                                </div>
@@ -273,7 +276,8 @@ console.log("HAS LIKED:", hasLiked);
                                                                comment?.userId?.profilePicture !== "default.jpg" ? (
 
     <img
-      src={`${BASE_URL}/${comment.userId.profilePicture}`}
+      // src={`${BASE_URL}/${comment.userId.profilePicture}`}
+      src={comment.userId.profilePicture}
       alt=""
     />
 

@@ -123,7 +123,7 @@ userProfile?.userId?.bannerPicture ? (
 
     <img
         className={styles.backDrop}
-        src={`${BASE_URL}/${userProfile.userId.bannerPicture}`}
+        src={userProfile.userId.bannerPicture}
         alt="banner"
     />
 
@@ -143,7 +143,7 @@ userProfile?.userId?.profilePicture !== "default.jpg" ? (
 
     <img
         className={styles.profilePicture}
-        src={`${BASE_URL}/${userProfile.userId.profilePicture}`}
+        src={userProfile.userId.profilePicture}
         alt="profile"
     />
 
@@ -270,7 +270,7 @@ userProfile?.userId?.profilePicture !== "default.jpg" ? (
                                 <div className={styles.card}>
                                     <p>{post.content}</p>
                                     {post.media !== "" ?
-                                        <img src={`${BASE_URL}/${post.media}`} alt="post media" className={styles.postMedia} />
+                                        <img src={post.media} alt="post media" className={styles.postMedia} />
                                         : null}
                                     <p>{post.body}</p>
                                 </div>

@@ -75,7 +75,7 @@ return (
                                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
                                     <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                                         <div className={styles.profilePicture}>
-                                            <img src={`${BASE_URL}/${user.userId.profilePicture}`} alt="" />
+                                            <img src={user.userId.profilePicture} alt="" />
                                         </div>
                                         <div className={styles.userInfo}>
                                             <h3>{user.userId.name}</h3>
@@ -152,7 +152,7 @@ if (!profile) return null;
                                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
                                         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                                             <div className={styles.profilePicture}>
-                                                <img src={`${BASE_URL}/${profile.profilePicture}`} alt="" />
+                                                <img src={profile.profilePicture} alt="" />
                                             </div>
                                             <div className={styles.userInfo}>
                                                 <h3>{profile.name}</h3>
