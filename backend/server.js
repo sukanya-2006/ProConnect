@@ -28,6 +28,17 @@ app.use(cors({
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
+// app.use(cors({
+//     origin: function(origin, callback) {
+//         if (!origin || origin.endsWith('.vercel.app') || origin === 'http://localhost:3000') {
+//             callback(null, true);
+//         } else {
+//             callback(new Error('Not allowed by CORS'));
+//         }
+//     },
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     credentials: true
+// }));
 app.use(express.json());
 app.use(postRoutes);
 app.use(userRoutes);
