@@ -155,6 +155,10 @@ This project is currently under active development, with new features and improv
 
 ---
 
+# Live Demo
+
+https://pro-connect-brown.vercel.app/
+
 ## Features
 
 ### Authentication & User Management
