@@ -1,19 +1,40 @@
-import {Router} from "express";
-import { login, register, uploadProfilePicture, updateUserProfile, getUserAndProfile, updateProfileData, getAllUserProfile, downloadProfile, sendConnectionRequest, getMyConnectionsRequests, whatAreMyConnections , acceptConnectionRequest, getUserProfileAndUserBasedOnUsername,getMyNetwork, uploadBannerPicture } from "../controllers/user.controller.js";
-import multer from "multer";
+// import {Router} from "express";
+// import { login, register, uploadProfilePicture, updateUserProfile, getUserAndProfile, updateProfileData, getAllUserProfile, downloadProfile, sendConnectionRequest, getMyConnectionsRequests, whatAreMyConnections , acceptConnectionRequest, getUserProfileAndUserBasedOnUsername,getMyNetwork, uploadBannerPicture } from "../controllers/user.controller.js";
+// import multer from "multer";
 
-const router = Router();
+// const router = Router();
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname)
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads/')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname)
+//     }
+// })
+
+// const upload = multer({storage: storage})
+
+import express from 'express';
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import multer from 'multer';
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'proconnect',
+        allowed_formats: ['jpg', 'jpeg', 'png', 'webp']
     }
-})
+});
 
-const upload = multer({storage: storage})
+const upload = multer({ storage });
 
 router.route("/update_profile_picture")
 .post(upload.single('profile_picture'), uploadProfilePicture)

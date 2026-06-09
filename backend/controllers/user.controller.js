@@ -354,26 +354,42 @@ export const login = async (req, res) => {
 
 
 
+// export const uploadProfilePicture = async (req, res) => {
+//     const {token} = req.body;
+
+//     try{
+
+//         const user = await User.findOne({token: token});
+
+//         if(!user) {
+//             return res.status(404).json({message: "user not found"})
+//         }
+
+//         user.profilePicture = req.file.filename;
+
+//         await user.save();
+
+
+//         return res.json({message: "Profile Picture updated"})
+
+//     } catch (error) {
+//        return res.status(500).json({message: error.message})
+//     }
+// }
+
+
 export const uploadProfilePicture = async (req, res) => {
-    const {token} = req.body;
+    const { token } = req.body;
+    try {
+        const user = await User.findOne({ token });
+        if (!user) return res.status(404).json({ message: "user not found" });
 
-    try{
-
-        const user = await User.findOne({token: token});
-
-        if(!user) {
-            return res.status(404).json({message: "user not found"})
-        }
-
-        user.profilePicture = req.file.filename;
-
+        user.profilePicture = req.file.path; // Cloudinary returns full URL in req.file.path
         await user.save();
 
-
-        return res.json({message: "Profile Picture updated"})
-
+        return res.json({ message: "Profile Picture updated" });
     } catch (error) {
-       return res.status(500).json({message: error.message})
+        return res.status(500).json({ message: error.message });
     }
 }
 
@@ -806,34 +822,47 @@ export const getUserProfileAndUserBasedOnUsername = async (req, res) => {
 //         });
 //     }
 // }
-
-
 export const uploadBannerPicture = async (req, res) => {
     const { token } = req.body;
-
     try {
+        const user = await User.findOne({ token });
+        if (!user) return res.status(404).json({ message: "user not found" });
 
-        const user = await User.findOne({
-            token: token
-        });
-
-        if (!user) {
-            return res.status(404).json({
-                message: "user not found"
-            });
-        }
-
-        user.bannerPicture = req.file.filename;
-
+        user.bannerPicture = req.file.path; // Cloudinary returns full URL in req.file.path
         await user.save();
 
-        return res.json({
-            message: "Banner Picture Updated"
-        });
-
+        return res.json({ message: "Banner Picture Updated" });
     } catch (error) {
-        return res.status(500).json({
-            message: error.message
-        });
+        return res.status(500).json({ message: error.message });
     }
 }
+
+// export const uploadBannerPicture = async (req, res) => {
+//     const { token } = req.body;
+
+//     try {
+
+//         const user = await User.findOne({
+//             token: token
+//         });
+
+//         if (!user) {
+//             return res.status(404).json({
+//                 message: "user not found"
+//             });
+//         }
+
+//         user.bannerPicture = req.file.filename;
+
+//         await user.save();
+
+//         return res.json({
+//             message: "Banner Picture Updated"
+//         });
+
+//     } catch (error) {
+//         return res.status(500).json({
+//             message: error.message
+//         });
+//     }
+// }
