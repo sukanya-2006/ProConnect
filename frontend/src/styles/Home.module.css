@@ -3,25 +3,6 @@
     padding: 1.2rem;
 }
 
-/* .mainContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 4rem;
-    padding-inline: 2rem;
-    height: 80vh;
-} */
-/* .mainContainer {
-    display: flex;
-    justify-content: space-between;   
-    align-items: center;
-    gap: 4rem;
-    padding-inline: 6rem;              
-    height: 80vh;
-    max-width: 1200px;                 
-    margin: auto;                     
-} */
-
 .mainContainer {
     display: flex;
     align-items: center;

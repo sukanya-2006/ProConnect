@@ -126,11 +126,7 @@
     object-fit: cover;
 }
 
-/* .optionsContainer {
-    display: flex;
-    height: 20%;
-    width: 100%;
-} */
+
 
 .optionsContainer {
     display: flex;
@@ -230,29 +226,6 @@
 }
 
 
-/* .emptyProfilePicture {
-    width: 70px;
-    height: 70px;
-
-    border-radius: 50%;
-
-    background: linear-gradient(
-        135deg,
-        #2563eb,
-        #3b82f6
-    );
-
-    color: white;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    font-size: 1.8rem;
-    font-weight: 700;
-
-    flex-shrink: 0;
-} */
 
 
 .emptyProfilePicture {

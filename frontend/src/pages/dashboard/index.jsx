@@ -61,17 +61,10 @@ export default function Dashboard() {
             <div className={styles.scrollComponent}>
             <div className={styles.wrapper}>
               <div className={styles.createPostContainer}>
-                {/* <img className={styles.userProfile}
-               src={
-                authState?.user?.userId?.profilePicture
-                ? `${BASE_URL}/${authState.user.userId.profilePicture}`
-                : "/default.jpg"
-            }
-            alt="Default Profile"
-           /> */}
+                
            {
-  authState?.user?.userId?.profilePicture &&
-  authState.user.userId.profilePicture !== "default.jpg" ? (
+  authState?.userId?.profilePicture &&
+  authState?.userId?.profilePicture !== "default.jpg" ? (
 
     <img
       className={styles.userProfile}
@@ -87,24 +80,7 @@ export default function Dashboard() {
 
   )
 }
-             {/* {
-  user.userId.profilePicture &&
-  user.userId.profilePicture !== "default.jpg" ? (
-
-    <img
-      className={styles.userCard__image}
-      src={`${BASE_URL}/${user.userId.profilePicture}`}
-      alt="profile"
-    />
-
-  ) : (
-
-    <div className={styles.emptyProfilePicture}>
-      {user.userId.name?.charAt(0)?.toUpperCase()}
-    </div>
-
-  )
-} */}
+            
 
             <textarea onChange={(e) => setPostContent(e.target.value)} value={postContent} placeholder={"What's on your mind?"} className={styles.textAreaOfContent} id="postContent"></textarea>
             <label htmlFor="fileUpload">
@@ -137,10 +113,7 @@ console.log("HAS LIKED:", hasLiked);
                     return (
                         <div key={post._id} className={styles.singleCard}>
                             <div className={styles.singleCard_profileContainer}>
-                                 {/* <img className={styles.userProfile}
-                                src={`${BASE_URL}/${post.userId.profilePicture}`}
-                                alt="User Profile"
-                            /> */}
+                                
 
 
                             {
@@ -183,9 +156,18 @@ console.log("HAS LIKED:", hasLiked);
                                 <p style={{ color: 'grey' }}>@{post.userId.username}</p>
                                 <p style={{paddingTop: "1.3rem"}}>{post.body}</p>
 
-                                <div className={styles.singleCard_image}>
-                                    <img src={`${BASE_URL}/uploads/${post.media}`} alt="Post Media" />
-                                 </div>
+                               
+
+                                 {
+                               post.media?.trim() && (
+                               <div className={styles.singleCard_image}>
+                                <img
+                                 src={`${BASE_URL}/uploads/${post.media}`}
+                                 alt="Post Media"
+                                     />
+                               </div>
+                               )
+                             }
 
                                  <div className={styles.optionsContainer}>
                                      <div onClick={ async() => {
@@ -198,9 +180,7 @@ console.log("HAS LIKED:", hasLiked);
                                      );
                                         dispatch(getAllPosts())
                                      }} className={styles.singleOption__optionsContainer}>
-                                        {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                           <path strokeLinecap="round" strokeLinejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
-                                        </svg> */}
+                                      
                                         {hasLiked ? (
 
    // FILLED THUMB
@@ -230,8 +210,8 @@ console.log("HAS LIKED:", hasLiked);
       fill="currentColor"
    >
       <path d="M235.5 102.8C256.3 68 300.5 54 338 71.6L345.2 75.4C380 96.3 394 140.5 376.4 178L376.4 178L362.3 208L472 208L479.4 208.4C515.7 212.1 544 242.8 544 280C544 293.2 540.4 305.4 534.2 316C540.3 326.6 543.9 338.8 544 352C544 370.3 537.1 386.8 526 399.5C527.3 404.8 528 410.3 528 416C528 441.1 515.1 463 495.8 475.9C493.9 511.4 466.4 540.1 431.4 543.6L424 544L319.9 544C301.9 544 284 540.6 267.3 534.1L260.2 531.1L259.5 530.8L252.9 527.6L252.2 527.3L240 520.8C227.7 514.3 216.7 506.1 207.1 496.7C203 523.6 179.8 544.1 151.8 544.1L119.8 544.1C88.9 544.1 63.8 519 63.8 488.1L64 264C64 233.1 89.1 208 120 208L152 208C162.8 208 172.9 211.1 181.5 216.5L231.6 110L232.2 108.8L234.9 103.8L235.5 102.9z"/>
-   </svg>
-
+   </svg> 
+   
 )}
                                         {/* <p>{post.likes}</p> */}
                                         <p>{post.likes?.length || 0}</p>
@@ -280,14 +260,17 @@ console.log("HAS LIKED:", hasLiked);
                                           
                                           
                                              <div>
-                                               {postState.comments.map((comment, index) => {
+                                               {/* {postState.comments.map((comment, index) => { */}
+                                                {postState.comments
+.filter(comment => comment?.userId)
+.map((comment, index) => {
                                                    return (
                                                        <div className={styles.singleComment} key={comment._id}>
                                                         <div className="singleComment_profileContainer">
                                                             {/* <img src={`${BASE_URL}/${comment.userId.profilePicture}`} alt="" /> */}
                                                             {
-  comment.userId.profilePicture &&
-  comment.userId.profilePicture !== "default.jpg" ? (
+                                                               comment?.userId?.profilePicture &&
+                                                               comment?.userId?.profilePicture !== "default.jpg" ? (
 
     <img
       src={`${BASE_URL}/${comment.userId.profilePicture}`}
@@ -297,14 +280,14 @@ console.log("HAS LIKED:", hasLiked);
   ) : (
 
     <div className={styles.emptyCommentProfile}>
-      {comment.userId.name?.charAt(0)?.toUpperCase()}
+      {comment?.userId?.name?.charAt(0)?.toUpperCase()}
     </div>
 
   )
 }
                                                             <div>
-                                                                <p style={{ fontWeight: "bold", fontSize: "1.2rem"}}>{comment.userId.name}</p>
-                                                                <p>@{comment.userId.username}</p>
+                                                                <p style={{ fontWeight: "bold", fontSize: "1.2rem"}}>{comment?.userId?.name}</p>
+                                                                <p>@{comment?.userId?.username}</p>
                                                             </div>
                                                         </div>
                                                         <p>

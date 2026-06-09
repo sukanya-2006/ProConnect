@@ -72,7 +72,10 @@ export default function DashboardLayout({children}) {
                key={profile._id}
                className={styles.homeContainer_extraContainer_profile}
             >
-               <p>{profile.userId.name}</p>
+               {/* <p>{profile.userId.name}</p> */}
+               {profile?.userId && (
+   <p>{profile.userId.name}</p>
+)}
             </div>
          )
       })

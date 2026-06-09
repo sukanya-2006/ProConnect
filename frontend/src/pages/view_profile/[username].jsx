@@ -28,13 +28,7 @@ export default function ViewProfilePage({ userProfile }) {
     const [isCurrentUserInConnection, setIsCurrentUserInConnection] = useState(false);
     const [isRequestSent, setIsRequestSent] = useState(false); 
     
-    // const [isConnectionNull, setIsConnectionNull] = useState(true);
-
-    // const getUsersPost = async()=> {
-    //     await dispatch(getAllPosts());
-    //     await dispatch(getConnectionsRequest({token: localStorage.getItem("token")}));
-
-    // }
+    
     const getUsersPost = async()=> {
 
     await dispatch(getAllPosts());
@@ -123,16 +117,6 @@ return (
                 <div className={styles.backDropContainer}>
                   
                     
-                    {/* <img
-                    className={styles.backDrop}
-                    src={
-                     userProfile?.userId?.bannerPicture
-                     ? `${BASE_URL}/${userProfile.userId.bannerPicture}`
-                     : "https://media.licdn.com/dms/image/v2/D4D12AQGRsL7h26w-Bg/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1711431970518?e=2147483647&v=beta&t=7MUoFdBoTt2bbPGQLIg36dcFCRHCwu1HyicK282aK6Y"
-                     }
-                     alt="banner"
-                     /> */}
-
 
                      {
 userProfile?.userId?.bannerPicture ? (
@@ -152,11 +136,7 @@ userProfile?.userId?.bannerPicture ? (
 
 )
 }
-                    {/* <img
-                        className={styles.profilePicture}
-                        src={`${BASE_URL}/${userProfile.userId.profilePicture}`}
-                        alt="profile"
-                    /> */}
+                   
                     {
 userProfile?.userId?.profilePicture &&
 userProfile?.userId?.profilePicture !== "default.jpg" ? (

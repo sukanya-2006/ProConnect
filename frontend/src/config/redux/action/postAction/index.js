@@ -50,24 +50,6 @@ export const createPost = createAsyncThunk (
     }
 )
 
-// export const deletePost = createAsyncThunk (
-//     "post/deletePost",
-//     async (post_id, thunkAPI) => {
-//         try {
-//             const response = await clientServer.post('/delete_post', {
-//                 data: {
-//                     token: localStorage.getItem("token"),
-//                     post_id: post_id.post_id
-//                 }
-//             });
-//             return thunkAPI.fulfillWithValue(response.data)
-//         } catch (error) {
-//             return thunkAPI.rejectWithValue("Something went wrong")
-//         }
-//     }
-// )
-
-
 
 export const deletePost = createAsyncThunk(
     "post/deletePost",
@@ -88,24 +70,6 @@ export const deletePost = createAsyncThunk(
 )
 
 
-// export const incrementPostLike = createAsyncThunk(
-//     "post/incrementLike",
-
-
-//     async (post, thunkAPI) => {
-//         try {
-//             const response = await clientServer.post(`/increment_post_like`, {
-//                 post_id: post.post_id,
-//             })
-
-//             return thunkAPI.fulfillWithValue(response.data);
-
-//         } catch (error) {
-//             return thunkAPI.rejectWithValue("Something went wrong")
-//         }
-
-//     }
-// )
 
 export const incrementPostLike = createAsyncThunk(
     "post/incrementLike",

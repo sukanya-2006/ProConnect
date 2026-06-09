@@ -233,15 +233,7 @@ const deleteSkill = (index) => {
         {/* Banner */}
         <div className={styles.backDropContainer}>
 
-            {/* <img
-                    className={styles.backDrop}
-                   src={
-                   userProfile?.userId?.bannerPicture
-                  ? `${BASE_URL}/${userProfile.userId.bannerPicture}`
-                  : "default-banner-url"
-                  }
-                  alt="banner"
-                /> */}
+           
 
                 {
        userProfile?.userId?.bannerPicture ? (

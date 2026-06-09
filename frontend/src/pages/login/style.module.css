@@ -29,13 +29,7 @@
     font-weight: bold;
     font-size: 1.8rem;
   }
-    /* .inputField {
-        padding-inline: 1.3rem;
-        padding-block: 0.8rem;
-        outline: none;
-        border-radius: 10px;
-        border: 1px solid silver;
-    } */
+    
 
    
     .inputContainers {
@@ -92,14 +86,7 @@
         min-height: 100vh;
     }
 
-    /* .cardContainer {
-        width: 100%;
-        height: auto;
-        flex-direction: column;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    } */
-
+   
     .cardContainer {
     width: 100%;
     height: auto;
@@ -115,21 +102,9 @@
         padding: 1.5rem;
     }
 
-    /* .cardContainer_right {
-        flex: unset;
-        width: 100%;
-        min-height: 250px;
-        padding: 2rem 1rem;
-    } */
+   
 
-    /* .cardContainer {
-    width: 100%;
-    height: auto;
-    min-height: auto;
-    flex-direction: column;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-} */
+   
 
 .cardContainer {
     width: 100%;

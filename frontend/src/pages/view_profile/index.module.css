@@ -83,18 +83,6 @@
     font-size: 1rem;
 }
 
-/* .connectBtn {
-    padding-inline: 1.5rem;
-    padding-block: 0.5rem;
-    background: #0073b1;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-} */
-
 
 
 .connectBtn {
@@ -154,18 +142,7 @@
 .connectedButton:hover {
     background: rgba(10, 102, 194, 0.08);
 }
-/* 
-.connectedButton {
-    padding-inline: 1.5rem;
-    padding-block: 0.5rem;
-    background: #e0e0e0;
-    color: #555555;
-    border: none;
-    border-radius: 5px;
-    cursor: not-allowed;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-} */
+
 
 .pendingButton {
     background-color: #f3f4f6;
@@ -203,23 +180,7 @@
 
 
 
-/* .emptyProfilePicture {
-    width: 120px;
-    height: 120px;
 
-    border-radius: 50%;
-
-    background: #e5e7eb;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    font-size: 3rem;
-    color: #6b7280;
-
-    border: 4px solid white;
-} */
 
 
 .emptyProfilePicture {
@@ -275,22 +236,6 @@
     text-align: center;
 }
 
-/* .emptyBanner {
-    width: 100%;
-    height: 200px;
 
-    border-radius: 12px;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    background: linear-gradient(
-        135deg,
-        #f3f4f6,
-        #e5e7eb
-    );
-
-    color: #6b7280;
-} */
+  

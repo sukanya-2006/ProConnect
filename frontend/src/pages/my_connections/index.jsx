@@ -14,6 +14,37 @@ const dispatch= useDispatch();
 const authState = useSelector((state) => state.auth);
 const router = useRouter();
 
+// const pendingRequests = Array.isArray(authState.connections) 
+//     ? authState.connections.filter((c) => c.status_accepted === null)
+//     : [];
+const pendingRequests = Array.isArray(authState.connections)
+    ? authState.connections.filter(
+          (c) =>
+              c.status_accepted === null &&
+              c.userId
+      )
+    : [];
+// const acceptedConnections = Array.isArray(authState.connections)
+//     ? authState.connections.filter((c) => c.status_accepted === true)
+//     : [];
+
+
+
+// const acceptedConnections = Array.isArray(authState.connections)
+//     ? authState.connections.filter(
+//           (c) =>
+//               c.status_accepted === true &&
+//               (c.userId || c.connectionId)
+//       )
+//     : [];
+const acceptedConnections = Array.isArray(authState.connections)
+  ? authState.connections.filter(
+      (c) =>
+        c.status_accepted === true &&
+        c.userId &&
+        c.connectionId
+    )
+  : [];
 useEffect(() => {
   dispatch(getConnectionsRequest({
     token: localStorage.getItem("token")
@@ -26,180 +57,119 @@ useEffect(() => {
    if (authState.connectionRequest.length != 0)
     console.log("authState.connectionRequest")
 }, [authState.connectionRequest])
-  return (
+
+return (
     <UserLayout>
-      <DashboardLayout>
-      
-<div>
-    {!Array.isArray(authState.connections) || authState.connections.length === 0 ? (
-        <div>
-            <h1>No Connection Requests Pending</h1>
-            
-        </div>
+        <DashboardLayout>
+            <div>
+                {/* Show pending requests section only if there are pending requests */}
+                {pendingRequests.length > 0 ? (
+                    <>
+                        <h1>My Connections</h1>
+                        {pendingRequests.map((user, index) => (
+                            <div
+                                onClick={() => router.push(`/view_profile/${user.userId.username}`)}
+                                className={styles.userCard}
+                                key={index}
+                            >
+                                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                                    <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                                        <div className={styles.profilePicture}>
+                                            <img src={`${BASE_URL}/${user.userId.profilePicture}`} alt="" />
+                                        </div>
+                                        <div className={styles.userInfo}>
+                                            <h3>{user.userId.name}</h3>
+                                            <p>@{user.userId.username}</p>
+                                        </div>
+                                    </div>
+                                    <div style={{ display: "flex", gap: "10px" }}>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                dispatch(AcceptConnection({
+                                                    token: localStorage.getItem("token"),
+                                                    connectionId: user._id,
+                                                    action: "accept"
+                                                }));
+                                            }}
+                                            className={styles.connectedButton}
+                                        >
+                                            Accept
+                                        </button>
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); }}
+                                            className={styles.rejectButton}
+                                        >
+                                            Reject
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </>
+                ) : acceptedConnections.length === 0 ? (
+                    <h1>No Connection Requests Pending</h1>
+                ) : null}
 
-    ) : (
+                {/* Show My Network only if there are accepted connections */}
+                {acceptedConnections.length > 0 && (
+                    <>
+                        <h2 className={styles.networkHeading}>My Network</h2>
+                        {acceptedConnections.map((user, index) => {
+                            // const currentUserId = authState.user?.userId?._id;
+                            // const profile = user.userId._id === currentUserId ? user.connectionId : user.userId;
+                            const currentUserId = authState.user?.userId?._id;
 
-        <>
-            <h1>My Connections</h1>
+if (!user?.userId && !user?.connectionId) {
+    return null;
+}
 
-          {Array.isArray(authState.connections) && authState.connections.filter((connection) => connection.status_accepted === null).map((user, index) => {
-    return (
-        <div
-        
-            onClick={() => {
-                router.push(`/view_profile/${user.userId.username}`);
-            }}
-            className={styles.userCard}
-            key={index}
-        >
-
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    width: "100%",
-                   
-
-                }}
-            >
-
-                {/* Left Side */}
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "1rem"
-                    }}
-                >
-                    <div className={styles.profilePicture}>
-                        <img
-                            src={`${BASE_URL}/${user.userId.profilePicture}`}
-                            alt=""
-                        />
-                    </div>
-
-                    <div className={styles.userInfo}>
-                        <h3>{user.userId.name}</h3>
-                        <p>@{user.userId.username}</p>
-                    </div>
-                </div>
-
-                {/* Right Side Buttons */}
-                <div
-                    style={{
-                        display: "flex",
-                        gap: "10px"
-                    }}
-                >
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-
-                            dispatch(
-                                AcceptConnection({
-                                    token: localStorage.getItem("token"),
-                                    connectionId: user._id,
-                                    action: "accept"
-                                })
-                            );
-                        }}
-                        className={styles.connectedButton}
-                    >
-                        Accept
-                    </button>
-
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-
-                            console.log("Reject clicked");
-                        }}
-                        className={styles.rejectButton}
-                    >
-                        Reject
-                    </button>
-                </div>
-
-            </div>
-
-        </div>
-    );
-})}
-        </>
-
-    )}
-</div>
-<h2 className={styles.networkHeading}>My Network</h2>
-{Array.isArray(authState.connections) && authState.connections.filter((connection) => connection.status_accepted !== null).map((user, index) =>{
-const currentUserId = authState.user?.userId?._id;
+// const profile =
+//     user?.userId?._id === currentUserId
+//         ? user?.connectionId
+//         : user?.userId;
+if (!user?.userId || !user?.connectionId) {
+    return null;
+}
 
 const profile =
     user.userId._id === currentUserId
         ? user.connectionId
         : user.userId;
-return (
-<div
 
-           
-            onClick={() => {
-                router.push(`/view_profile/${profile.username}`);
-            }}
-            className={styles.userCard}
-            key={index}
-        >
-
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    width: "100%"
-                }}
-            >
-
-                {/* Left Side */}
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "1rem"
-                    }}
-                >
-                    <div className={styles.profilePicture}>
-                        <img
-                            src={`${BASE_URL}/${profile.profilePicture}`}
-                            alt=""
-                        />
-                    </div>
-
-                    <div className={styles.userInfo}>
-                        <h3>{profile.name}</h3>
-                        <p>@{profile.username}</p>
-                    </div>
-                </div>
-
-                {/* Right Side Buttons */}
-                <div
-                    style={{
-                        display: "flex",
-                        gap: "10px"
-                    }}
-                >  
-                </div>
-
+if (!profile) return null;
+                            return (
+                                <div
+                                    // onClick={() => router.push(`/view_profile/${profile.username}`)}
+                                    onClick={() => {
+    if (profile?.username) {
+        router.push(`/view_profile/${profile.username}`);
+    }
+}}
+                                    className={styles.userCard}
+                                    key={index}
+                                >
+                                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                                        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                                            <div className={styles.profilePicture}>
+                                                <img src={`${BASE_URL}/${profile.profilePicture}`} alt="" />
+                                            </div>
+                                            <div className={styles.userInfo}>
+                                                <h3>{profile.name}</h3>
+                                                <p>@{profile.username}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </>
+                )}
             </div>
-
-        </div>
-)    
-               
-})}
-        
-        
         </DashboardLayout>
-          
     </UserLayout>
-  )
+);
+
 }
 
 

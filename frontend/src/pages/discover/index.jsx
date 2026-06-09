@@ -27,7 +27,12 @@ const dispatch = useDispatch();
 
                 <div className={styles.allUserProfile}>
 
-                {authState.all_profiles_fetched && authState.all_users.map((user) => {
+                {/* {authState.all_profiles_fetched && authState.all_users.map((user) => { */}
+                {
+  authState.all_profiles_fetched &&
+  authState.all_users
+    .filter((user) => user?.userId)
+    .map((user) => {
                     return (
                         <div onClick={() => {
                             router.push(`/view_profile/${user.userId.username}`)
@@ -35,8 +40,10 @@ const dispatch = useDispatch();
                             {/* <img className={styles.userCard__image} src={`${BASE_URL}/${user.userId.profilePicture}`} alt="profile" /> */}
 
                             {
-  user.userId.profilePicture &&
-  user.userId.profilePicture !== "default.jpg" ? (
+  // user.userId.profilePicture &&
+  // user.userId.profilePicture !== "default.jpg" ? 
+     user?.userId?.profilePicture &&
+user?.userId?.profilePicture !== "default.jpg" ? (
 
     <img
       className={styles.userCard__image}
@@ -53,8 +60,8 @@ const dispatch = useDispatch();
   )
 }
                             <div>
-                            <h1>{user.userId.name}</h1>
-                            <p>@{user.userId.username}</p>
+                            <h1>{user?.userId?.name}</h1>
+                            <p>@{user?.userId?.name}</p>
                             </div>
                             
                         </div>

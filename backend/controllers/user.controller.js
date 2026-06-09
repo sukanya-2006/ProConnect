@@ -8,73 +8,257 @@ import bcrypt from 'bcrypt';
 import PDFDocument from 'pdfkit';
 import fs from "fs";
 
-const convertUserDataTOPDF = async (userData) => {
-    const doc = new PDFDocument();
 
-    const outputPath = crypto.randomBytes(32).toString("hex") + ".pdf";
-    const stream = fs.createWriteStream("uploads/" + outputPath)
+const convertUserDataTOPDF = async (userData) => {
+    const doc = new PDFDocument({
+        margin: 50
+    });
+
+    const outputPath =
+        crypto.randomBytes(32).toString("hex") + ".pdf";
+
+    const stream = fs.createWriteStream(
+        "uploads/" + outputPath
+    );
 
     doc.pipe(stream);
-    // console.log("PROFILE PIC:", userData.userId.profilePicture);
-    // console.log("PATH:", `uploads/${userData.userId.profilePicture}`);
-    // console.log("FILE EXISTS:", fs.existsSync(imagePath));
-    // doc.image(`uploads/${userData.userId.profilePicture}`,{align : "center", width: 100})
-//     const imagePath = `uploads/${userData.userId.profilePicture}`;
 
-//   try {
-//     if (
-//         userData.userId.profilePicture &&
-//         (
-//             imagePath.endsWith(".jpg") ||
-//             imagePath.endsWith(".jpeg") ||
-//             imagePath.endsWith(".png")
-//         )
-//     ) {
-//         doc.image(imagePath, {
-//             align: "center",
-//             width: 100
-//         });
-//     }
-// } catch (error) {
-//     console.log("IMAGE ERROR:", error.message);
-// }
-    const imagePath = `uploads/${userData.userId.profilePicture}`;
-    console.log("USER:", userData.userId.name);
-    console.log("IMAGE:", imagePath);
-    console.log("EXISTS:", fs.existsSync(imagePath));
-if (fs.existsSync(imagePath)) {
-    try {
-        doc.image(imagePath, {
-            align: "center",
-            width: 100
-        });
-    } catch (err) {
-        console.log(
-            "Failed to load image:",
-            imagePath,
-            err.message
-        );
+    // ==========================
+    // PROFILE IMAGE
+    // ==========================
+
+    if (
+        userData?.userId?.profilePicture &&
+        userData.userId.profilePicture !== "default.jpg"
+    ) {
+        const imagePath = `uploads/${userData.userId.profilePicture}`;
+
+        if (fs.existsSync(imagePath)) {
+            try {
+                doc.image(imagePath, {
+                    width: 120,
+                    align: "center"
+                });
+
+                doc.moveDown();
+            } catch (err) {
+                console.log(
+                    "Image loading failed:",
+                    err.message
+                );
+            }
+        }
     }
-}
-    doc.fontSize(14).text(`Name: ${userData.userId.name}`);
-    doc.fontSize(14).text(`Username: ${userData.userId.username}`);
-    doc.fontSize(14).text(`Email: ${userData.userId.email}`);
-    doc.fontSize(14).text(`Bio: ${userData.bio}`);
-    doc.fontSize(14).text(`Current Position: ${userData.currentPost}`);
-    
-    doc.fontSize(14).text("Past Work:")
-    userData.pastWork.forEach((work, index) => {
-        doc.fontSize(14).text(`Company Name : ${work.company}`);
-        doc.fontSize(14).text(`Position : ${work.position}`);
-        doc.fontSize(14).text(`Years: ${work.years}`);
-    })
+
+    // ==========================
+    // HEADER
+    // ==========================
+
+    doc
+        .fontSize(24)
+        .text(userData.userId.name, {
+            align: "center"
+        });
+
+    doc.moveDown(0.5);
+
+    doc
+        .fontSize(12)
+        .text(
+            `@${userData.userId.username}`,
+            {
+                align: "center"
+            }
+        );
+
+    doc
+        .fontSize(12)
+        .text(
+            userData.userId.email,
+            {
+                align: "center"
+            }
+        );
+
+    doc.moveDown(1);
+
+    // ==========================
+    // BIO
+    // ==========================
+
+    doc
+        .fontSize(18)
+        .text("Professional Summary");
+
+    doc.moveDown(0.3);
+
+    doc
+        .fontSize(12)
+        .text(
+            userData.bio ||
+            "No bio added."
+        );
+
+    doc.moveDown();
+
+    // ==========================
+    // CURRENT POSITION
+    // ==========================
+
+    doc
+        .fontSize(18)
+        .text("Current Position");
+
+    doc.moveDown(0.3);
+
+    doc
+        .fontSize(12)
+        .text(
+            userData.currentPost ||
+            "Not specified"
+        );
+
+    doc.moveDown();
+
+    // ==========================
+    // WORK HISTORY
+    // ==========================
+
+    doc
+        .fontSize(18)
+        .text("Work Experience");
+
+    doc.moveDown(0.3);
+
+    if (
+        userData.pastWork &&
+        userData.pastWork.length > 0
+    ) {
+        userData.pastWork.forEach((work) => {
+            doc
+                .fontSize(14)
+                .text(
+                    `${work.company}`
+                );
+
+            doc
+                .fontSize(12)
+                .text(
+                    `Position: ${work.position}`
+                );
+
+            doc
+                .fontSize(12)
+                .text(
+                    `Years: ${work.years}`
+                );
+
+            doc.moveDown();
+        });
+    } else {
+        doc
+            .fontSize(12)
+            .text(
+                "No work experience added."
+            );
+    }
+
+    doc.moveDown();
+
+    // ==========================
+    // EDUCATION
+    // ==========================
+
+    doc
+        .fontSize(18)
+        .text("Education");
+
+    doc.moveDown(0.3);
+
+    if (
+        userData.education &&
+        userData.education.length > 0
+    ) {
+        userData.education.forEach((edu) => {
+
+            doc
+                .fontSize(14)
+                .text(
+                    edu.school || "School"
+                );
+
+            doc
+                .fontSize(12)
+                .text(
+                    `Degree: ${edu.degree || ""}`
+                );
+
+            doc
+                .fontSize(12)
+                .text(
+                    `Field: ${edu.fieldOfStudy || ""}`
+                );
+
+            doc.moveDown();
+        });
+    } else {
+
+        doc
+            .fontSize(12)
+            .text(
+                "No education history added."
+            );
+    }
+
+    doc.moveDown();
+
+    // ==========================
+    // SKILLS
+    // ==========================
+
+    doc
+        .fontSize(18)
+        .text("Skills");
+
+    doc.moveDown(0.3);
+
+    if (
+        userData.skills &&
+        userData.skills.length > 0
+    ) {
+
+        doc
+            .fontSize(12)
+            .text(
+                userData.skills.join(", ")
+            );
+
+    } else {
+
+        doc
+            .fontSize(12)
+            .text(
+                "No skills added."
+            );
+    }
+
+    doc.moveDown();
+
+    // ==========================
+    // GENERATED DATE
+    // ==========================
+
+    doc
+        .fontSize(10)
+        .fillColor("gray")
+        .text(
+            `Generated on ${new Date().toLocaleDateString()}`
+        );
 
     doc.end();
 
     return outputPath;
-      
-
-}
+};
 
 
 export const register = async (req, res) => {

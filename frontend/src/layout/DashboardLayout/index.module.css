@@ -60,21 +60,7 @@
 }
 
 
-/* @media (max-width: 768px) {
 
-    .homeContainer_leftBar {
-        display: none;
-    }
-
-    .homeContainer_extraContainer {
-        display: none;
-    }
-
-    .homeContainer_feedContainer {
-        width: 100%;
-        padding: 0;
-    }
-} */
 
 .mobileNavBar {
     /* position: absolute; */
@@ -104,17 +90,7 @@
     width: 2.2rem;
 }
 
-/* @media only screen and (max-width: 600px) {
-    .homeContainer_extraContainer{
-        display: none;
-    }
-    .homeContainer{
-        display: block;
-    }
-    .homeContainer_leftBar{
-        display: none;
-    }
-} */
+
 
 
 @media only screen and (max-width: 600px) {
