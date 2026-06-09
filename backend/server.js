@@ -23,7 +23,7 @@ app.use(cors({
     origin: [
         "http://localhost:3000",
         "https://pro-connect-brown.vercel.app",
-        "https://pro-connect-git-main-sukanya-bhowmicks-projects.vercel.app"
+        "https://pro-connect-k9dmfn2ej-sukanya-bhowmicks-projects.vercel.app/"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
