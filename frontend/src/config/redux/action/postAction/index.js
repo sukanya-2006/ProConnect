@@ -1,9 +1,15 @@
+// import axios from "axios";
+// import {createAsyncThunk} from "@reduxjs/toolkit";
+
+
+// const clientServer = axios.create({
+//     baseURL: "http://localhost:9090"
+// })
 import axios from "axios";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 
-
 const clientServer = axios.create({
-    baseURL: "http://localhost:9090"
+    baseURL: "https://proconnect-6tjm.onrender.com"
 })
 
 export const getAllPosts = createAsyncThunk (
