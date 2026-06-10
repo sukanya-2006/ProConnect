@@ -635,7 +635,6 @@ export const getAllUserProfile = async (req, res) => {
 //     return res.json({"message": outputPath})
 // }
 
-
 export const downloadProfile = async (req, res) => {
     const user_id = req.query.id;
 
@@ -643,18 +642,103 @@ export const downloadProfile = async (req, res) => {
         const userProfile = await Profile.findOne({ userId: user_id })
            .populate('userId', 'name username email profilePicture bannerPicture');
 
-        console.log("GENERATING PDF FOR:", userProfile?.userId?.name);
-        
-        let outputPath = await convertUserDataTOPDF(userProfile);
-        
-        console.log("PDF GENERATED:", outputPath);
+        const doc = new PDFDocument({ margin: 50 });
 
-        return res.json({"message": outputPath})
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="${userProfile.userId.name}_resume.pdf"`);
+
+        doc.pipe(res);
+
+        // HEADER
+        doc.fontSize(24).text(userProfile.userId.name, { align: "center" });
+        doc.moveDown(0.5);
+        doc.fontSize(12).text(`@${userProfile.userId.username}`, { align: "center" });
+        doc.fontSize(12).text(userProfile.userId.email, { align: "center" });
+        doc.moveDown(1);
+
+        // BIO
+        doc.fontSize(18).text("Professional Summary");
+        doc.moveDown(0.3);
+        doc.fontSize(12).text(userProfile.bio || "No bio added.");
+        doc.moveDown();
+
+        // CURRENT POSITION
+        doc.fontSize(18).text("Current Position");
+        doc.moveDown(0.3);
+        doc.fontSize(12).text(userProfile.currentPost || "Not specified");
+        doc.moveDown();
+
+        // WORK HISTORY
+        doc.fontSize(18).text("Work Experience");
+        doc.moveDown(0.3);
+        if (userProfile.pastWork && userProfile.pastWork.length > 0) {
+            userProfile.pastWork.forEach((work) => {
+                doc.fontSize(14).text(`${work.company}`);
+                doc.fontSize(12).text(`Position: ${work.position}`);
+                doc.fontSize(12).text(`Years: ${work.years}`);
+                doc.moveDown();
+            });
+        } else {
+            doc.fontSize(12).text("No work experience added.");
+        }
+        doc.moveDown();
+
+        // EDUCATION
+        doc.fontSize(18).text("Education");
+        doc.moveDown(0.3);
+        if (userProfile.education && userProfile.education.length > 0) {
+            userProfile.education.forEach((edu) => {
+                doc.fontSize(14).text(edu.school || "School");
+                doc.fontSize(12).text(`Degree: ${edu.degree || ""}`);
+                doc.fontSize(12).text(`Field: ${edu.fieldOfStudy || ""}`);
+                doc.moveDown();
+            });
+        } else {
+            doc.fontSize(12).text("No education history added.");
+        }
+        doc.moveDown();
+
+        // SKILLS
+        doc.fontSize(18).text("Skills");
+        doc.moveDown(0.3);
+        if (userProfile.skills && userProfile.skills.length > 0) {
+            doc.fontSize(12).text(userProfile.skills.join(", "));
+        } else {
+            doc.fontSize(12).text("No skills added.");
+        }
+        doc.moveDown();
+
+        doc.fontSize(10).fillColor("gray").text(`Generated on ${new Date().toLocaleDateString()}`);
+
+        doc.end();
+
     } catch (err) {
         console.log("PDF ERROR:", err.message);
-        return res.status(500).json({message: err.message})
+        return res.status(500).json({message: err.message});
     }
 }
+
+
+
+// export const downloadProfile = async (req, res) => {
+//     const user_id = req.query.id;
+
+//     try {
+//         const userProfile = await Profile.findOne({ userId: user_id })
+//            .populate('userId', 'name username email profilePicture bannerPicture');
+
+//         console.log("GENERATING PDF FOR:", userProfile?.userId?.name);
+        
+//         let outputPath = await convertUserDataTOPDF(userProfile);
+        
+//         console.log("PDF GENERATED:", outputPath);
+
+//         return res.json({"message": outputPath})
+//     } catch (err) {
+//         console.log("PDF ERROR:", err.message);
+//         return res.status(500).json({message: err.message})
+//     }
+// }
 
 
 
