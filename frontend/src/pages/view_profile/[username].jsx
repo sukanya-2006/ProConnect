@@ -195,12 +195,23 @@ userProfile?.userId?.profilePicture !== "default.jpg" ? (
     link.click();
     document.body.removeChild(link);
 }} style={ {cursor: "pointer"}}> */}
-<div onClick={async () => {
+{/* <div onClick={async () => {
     const response = await clientServer.get(`/user/download_resume?id=${userProfile.userId._id}`);
     const pdfUrl = response.data.message.replace('/upload/', '/upload/fl_attachment/');
     const link = document.createElement('a');
     link.href = pdfUrl;
     link.download = `${userProfile.userId.name}_resume.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}} style={{cursor: "pointer"}}> */}
+<div onClick={async () => {
+    const response = await clientServer.get(`/user/download_resume?id=${userProfile.userId._id}`);
+    const pdfUrl = response.data.message;
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.setAttribute('download', `${userProfile.userId.name}_resume.pdf`);
+    link.setAttribute('target', '_blank');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
