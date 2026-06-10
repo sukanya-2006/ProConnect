@@ -610,19 +610,39 @@ export const getAllUserProfile = async (req, res) => {
 
 
 
+// export const downloadProfile = async (req, res) => {
+//     const user_id = req.query.id;
+
+//     const userProfile = await Profile.findOne({ userId : user_id})
+//        .populate('userId', 'name username email profilePicture bannerPicture');
+
+
+//     let outputPath = await convertUserDataTOPDF(userProfile);
+
+
+//     return res.json({"message": outputPath})
+// }
+
+
 export const downloadProfile = async (req, res) => {
     const user_id = req.query.id;
 
-    const userProfile = await Profile.findOne({ userId : user_id})
-       .populate('userId', 'name username email profilePicture bannerPicture');
+    try {
+        const userProfile = await Profile.findOne({ userId: user_id })
+           .populate('userId', 'name username email profilePicture bannerPicture');
 
+        console.log("GENERATING PDF FOR:", userProfile?.userId?.name);
+        
+        let outputPath = await convertUserDataTOPDF(userProfile);
+        
+        console.log("PDF GENERATED:", outputPath);
 
-    let outputPath = await convertUserDataTOPDF(userProfile);
-
-
-    return res.json({"message": outputPath})
+        return res.json({"message": outputPath})
+    } catch (err) {
+        console.log("PDF ERROR:", err.message);
+        return res.status(500).json({message: err.message})
+    }
 }
-
 
 
 
