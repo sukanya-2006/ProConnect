@@ -281,13 +281,25 @@ const convertUserDataTOPDF = async (userData) => {
     const doc = new PDFDocument({ margin: 50 });
 
     const cloudinaryUpload = await new Promise((resolve, reject) => {
+        // const uploadStream = cloudinary.uploader.upload_stream(
+        //     { folder: 'proconnect/resumes', resource_type: 'raw', format: 'pdf' },
+        //     (error, result) => {
+        //         if (error) reject(error);
+        //         else resolve(result);
+        //     }
+        // );
         const uploadStream = cloudinary.uploader.upload_stream(
-            { folder: 'proconnect/resumes', resource_type: 'raw', format: 'pdf' },
-            (error, result) => {
-                if (error) reject(error);
-                else resolve(result);
-            }
-        );
+    { 
+        folder: 'proconnect/resumes', 
+        resource_type: 'raw', 
+        format: 'pdf',
+        flags: 'attachment'
+    },
+    (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+    }
+);
 
         doc.pipe(uploadStream);
 
