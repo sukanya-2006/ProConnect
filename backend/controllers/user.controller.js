@@ -292,18 +292,18 @@ const convertUserDataTOPDF = async (userData) => {
         doc.pipe(uploadStream);
 
         // PROFILE IMAGE
-        if (
-            userData?.userId?.profilePicture &&
-            userData.userId.profilePicture !== "default.jpg" &&
-            userData.userId.profilePicture.startsWith("http")
-        ) {
-            try {
-                doc.image(userData.userId.profilePicture, { width: 120, align: "center" });
-                doc.moveDown();
-            } catch (err) {
-                console.log("Image loading failed:", err.message);
-            }
-        }
+        // if (
+        //     userData?.userId?.profilePicture &&
+        //     userData.userId.profilePicture !== "default.jpg" &&
+        //     userData.userId.profilePicture.startsWith("http")
+        // ) {
+        //     try {
+        //         doc.image(userData.userId.profilePicture, { width: 120, align: "center" });
+        //         doc.moveDown();
+        //     } catch (err) {
+        //         console.log("Image loading failed:", err.message);
+        //     }
+        // }
 
         // HEADER
         doc.fontSize(24).text(userData.userId.name, { align: "center" });
